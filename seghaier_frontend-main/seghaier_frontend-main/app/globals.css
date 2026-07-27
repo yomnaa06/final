@@ -1,0 +1,127 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background:           var(--background);
+  --color-foreground:           var(--foreground);
+  --color-card:                 var(--card);
+  --color-card-foreground:      var(--card-foreground);
+  --color-popover:              var(--popover);
+  --color-popover-foreground:   var(--popover-foreground);
+  --color-primary:              var(--primary);
+  --color-primary-foreground:   var(--primary-foreground);
+  --color-secondary:            var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted:                var(--muted);
+  --color-muted-foreground:     var(--muted-foreground);
+  --color-accent:               var(--accent);
+  --color-accent-foreground:    var(--accent-foreground);
+  --color-destructive:          var(--destructive);
+  --color-border:               var(--border);
+  --color-input:                var(--input);
+  --color-ring:                 var(--ring);
+  --color-steel:                var(--steel);
+  --color-steel-foreground:     var(--steel-foreground);
+  --color-brand-blue:           var(--brand-blue);
+  --color-brand-blue-light:     var(--brand-blue-light);
+  --color-brand-red:            var(--brand-red);
+  --color-brand-red-light:      var(--brand-red-light);
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-sm:  calc(var(--radius) - 3px);
+  --radius-md:  var(--radius);
+  --radius-lg:  calc(var(--radius) + 3px);
+  --radius-xl:  calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) + 12px);
+}
+
+:root {
+  color-scheme: light;
+
+  /* Pure white ground — Al Rajhi style */
+  --background:             #ffffff;
+  --foreground:             #0d0d0d;
+  --card:                   #ffffff;
+  --card-foreground:        #0d0d0d;
+  --popover:                #ffffff;
+  --popover-foreground:     #0d0d0d;
+
+  /* Primary = deep charcoal, used only for text/borders not backgrounds */
+  --primary:                #1a1a1a;
+  --primary-foreground:     #ffffff;
+
+  /* Light grey section backgrounds */
+  --secondary:              #f7f7f7;
+  --secondary-foreground:   #1a1a1a;
+  --muted:                  #f0f0f0;
+  --muted-foreground:       #717171;
+
+  /* Accent = brand blue (used sparingly) */
+  --accent:                 #1b3d6f;
+  --accent-foreground:      #ffffff;
+
+  /* ── Brand colours ── */
+  /* Blue: deep professional navy */
+  --brand-blue:             #1b3d6f;
+  --brand-blue-light:       #edf2fb;
+
+  /* Red: the hero colour — confident, not alarming */
+  --brand-red:              #c0160c;
+  --brand-red-light:        #fdf3f2;
+
+  /* Dark panel for hero / footer */
+  --steel:                  #0f0f0f;
+  --steel-foreground:       #f0f0f0;
+
+  --destructive:            #c0160c;
+  --border:                 #e8e8e8;
+  --input:                  #e0e0e0;
+  --ring:                   #1b3d6f;
+
+  --radius: 0.5rem;
+}
+
+@layer base {
+  *, *::before, *::after { @apply border-border; box-sizing: border-box; }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.6;
+  }
+
+  ::selection { background: var(--brand-red); color: #fff; }
+}
+
+@layer utilities {
+  /* Eyebrow — red by default (Al Rajhi uses red accents for section labels) */
+  .label-eyebrow {
+    @apply font-mono text-[10.5px] font-semibold uppercase tracking-[0.24em] text-brand-red;
+  }
+
+  .label-eyebrow-blue {
+    @apply font-mono text-[10.5px] font-semibold uppercase tracking-[0.24em] text-brand-blue;
+  }
+
+  .tracking-display { letter-spacing: -0.03em; }
+
+  /* Thin red rule — decorative */
+  .red-rule {
+    display: inline-block;
+    width: 2.5rem;
+    height: 3px;
+    background: var(--brand-red);
+    border-radius: 99px;
+  }
+}
