@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { AdminController } from '../controllers/adminController';
 import { authenticateToken, requireAdmin } from '../middlewares/authMiddleware';
+import { upload } from '../middlewares/uploadMiddleware';
 
 const router = Router();
 
@@ -11,7 +12,7 @@ router.get('/dashboard', authenticateToken, requireAdmin, AdminController.getDas
 router.get('/notifications', authenticateToken, requireAdmin, AdminController.getNotifications);
 
 // Devis Management
-router.put('/devis/:id/validate', authenticateToken, requireAdmin, AdminController.validateDevis);
+router.put('/devis/:id/validate', authenticateToken, requireAdmin, upload.single('file'), AdminController.validateDevis);
 router.put('/devis/:id/refuse', authenticateToken, requireAdmin, AdminController.refuseDevis);
 
 // Reclamation Management

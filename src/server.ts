@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
 
 // Load environment variables from .env
 dotenv.config();
@@ -19,6 +20,9 @@ app.use(cors());
 
 // Parse JSON request bodies
 app.use(express.json());
+
+// Serve uploads folder statically
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Mount API routes
 app.use('/api/auth', authRoutes);

@@ -17,7 +17,7 @@ export function generateToken(payload: TokenPayload): string {
 }
 
 /**
- * Verifies a JWT token and returns its payload.
+ * verification de jwt token
  * Retourne null si token  invalid or expiré.
  * @param token JWT token string
  * @returns Decoded payload or null

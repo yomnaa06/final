@@ -52,11 +52,7 @@ static async getPendingDevis() {
     where: { statut: 'EN_ATTENTE' },
     include: {
       client: {
-        select: {
-          nom: true,
-          telephone: true,
-          adresse: true,
-          ville: true,
+        include: {
           user: {
             select: {
               email: true,
@@ -94,7 +90,7 @@ static async getPendingDevis() {
   }
 
  // valider devis
-  static async validateDevis(devisId: number) {
+  static async validateDevis(devisId: number, documentUrl?: string) {
     const devis = await prisma.devis.findUnique({
       where: { id: devisId },
     });
@@ -108,6 +104,7 @@ static async getPendingDevis() {
       data: {
         statut: 'VALIDE',
         dateTraitement: new Date(),
+        documentUrl: documentUrl ?? null,
       },
     });
   }

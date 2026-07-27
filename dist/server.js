@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const path_1 = __importDefault(require("path"));
 // Load environment variables from .env
 dotenv_1.default.config();
 // Importation de routers
@@ -19,6 +20,8 @@ const PORT = process.env.PORT || 3000;
 app.use((0, cors_1.default)());
 // Parse JSON request bodies
 app.use(express_1.default.json());
+// Serve uploads folder statically
+app.use('/uploads', express_1.default.static(path_1.default.join(__dirname, '../uploads')));
 // Mount API routes
 app.use('/api/auth', authRoutes_1.default);
 app.use('/api/devis', devisRoutes_1.default);

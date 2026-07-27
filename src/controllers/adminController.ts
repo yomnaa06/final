@@ -113,7 +113,12 @@ export class AdminController {
         return res.status(400).json({ success: false, message: 'ID de devis invalide.' });
       }
 
-      const result = await DevisService.validateDevis(id);
+      let documentUrl: string | undefined;
+      if (req.file) {
+        documentUrl = `/uploads/${req.file.filename}`;
+      }
+
+      const result = await DevisService.validateDevis(id, documentUrl);
       return res.status(200).json({
         success: true,
         message: 'Devis validé avec succès !',

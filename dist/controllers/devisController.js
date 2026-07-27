@@ -94,7 +94,11 @@ class DevisController {
             if (isNaN(devisId)) {
                 return res.status(400).json({ success: false, message: 'ID de devis invalide.' });
             }
-            const updatedDevis = await devisService_1.DevisService.validateDevis(devisId);
+            let documentUrl;
+            if (req.file) {
+                documentUrl = `/uploads/${req.file.filename}`;
+            }
+            const updatedDevis = await devisService_1.DevisService.validateDevis(devisId, documentUrl);
             return res.status(200).json({
                 success: true,
                 message: 'Devis validé avec succès.',

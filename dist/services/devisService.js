@@ -52,11 +52,7 @@ class DevisService {
             where: { statut: 'EN_ATTENTE' },
             include: {
                 client: {
-                    select: {
-                        nom: true,
-                        telephone: true,
-                        adresse: true,
-                        ville: true,
+                    include: {
                         user: {
                             select: {
                                 email: true,
@@ -90,7 +86,7 @@ class DevisService {
         return devis;
     }
     // valider devis
-    static async validateDevis(devisId) {
+    static async validateDevis(devisId, documentUrl) {
         const devis = await db_1.default.devis.findUnique({
             where: { id: devisId },
         });
@@ -102,6 +98,7 @@ class DevisService {
             data: {
                 statut: 'VALIDE',
                 dateTraitement: new Date(),
+                documentUrl: documentUrl ?? null,
             },
         });
     }
