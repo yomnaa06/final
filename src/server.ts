@@ -11,6 +11,8 @@ import authRoutes from './routes/authRoutes';
 import devisRoutes from './routes/devisRoutes';
 import reclamationRoutes from './routes/reclamationRoutes';
 import adminRoutes from './routes/adminRoutes';
+import contactRoutes from './routes/contactRoutes';
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,7 +31,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/devis', devisRoutes);
 app.use('/api/reclamations', reclamationRoutes);
 app.use('/api/admin', adminRoutes);
-
+app.use('/api/contact', contactRoutes);
 // Healthcheck endpoint
 app.get('/api/health', (_req, res) => {
   res.status(200).json({

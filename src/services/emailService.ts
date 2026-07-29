@@ -47,4 +47,120 @@ export class EmailService {
       throw new Error('Erreur lors de l\'envoi de l\'email.');
     }
   }
+
+  // ===== NEW: Send contact form email =====
+  static async sendContactEmail(data: {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+  }) {
+    const { name, email, subject, message } = data;
+
+    // Email to you (infoseghaier@gmail.com)
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: 'infoseghaier@gmail.com',
+      subject: `[Contact Seghaier] ${subject}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
+          <div style="background: #0D47A1; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+            <h2 style="margin: 0;">📩 Nouveau message de contact</h2>
+          </div>
+          <div style="padding: 20px;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 10px 0; font-weight: bold; color: #0D47A1;">👤 Nom</td>
+                <td style="padding: 10px 0;">${name}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; font-weight: bold; color: #0D47A1;">📧 Email</td>
+                <td style="padding: 10px 0;">${email}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; font-weight: bold; color: #0D47A1;">📝 Sujet</td>
+                <td style="padding: 10px 0;">${subject}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; font-weight: bold; color: #0D47A1; vertical-align: top;">💬 Message</td>
+                <td style="padding: 10px 0; white-space: pre-wrap;">${message}</td>
+              </tr>
+            </table>
+            <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 20px 0;">
+            <p style="color: #666; font-size: 14px;">
+              Ce message a été envoyé depuis le formulaire de contact du site Seghaier.
+            </p>
+          </div>
+          <div style="background: #f5f5f5; padding: 15px; text-align: center; border-radius: 0 0 8px 8px; color: #666; font-size: 12px;">
+            <p style="margin: 0;">Seghaier Pièces Auto — infoseghaier@gmail.com</p>
+            <p style="margin: 0;">© ${new Date().getFullYear()} Tous droits réservés.</p>
+          </div>
+        </div>
+      `,
+      text: `
+        Nouveau message de contact
+        -------------------------
+        Nom: ${name}
+        Email: ${email}
+        Sujet: ${subject}
+        Message: ${message}
+        -------------------------
+        Ce message a été envoyé depuis le formulaire de contact du site Seghaier.
+      `,
+    };
+
+    // Auto-reply to the user
+    const autoReplyOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Confirmation de votre message - Seghaier Pièces Auto',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
+          <div style="background: #0D47A1; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+            <h2 style="margin: 0;">✅ Message reçu</h2>
+          </div>
+          <div style="padding: 20px;">
+            <p>Bonjour <strong>${name}</strong>,</p>
+            <p>Nous avons bien reçu votre message et nous vous répondrons dans les plus brefs délais.</p>
+            <div style="background: #e3f2fd; padding: 15px; border-radius: 4px; border-left: 4px solid #0D47A1; margin: 15px 0;">
+              <p style="margin: 0; font-weight: bold;">Votre message :</p>
+              <p style="margin: 5px 0 0 0; font-style: italic;">"${message}"</p>
+            </div>
+            <p style="margin-top: 20px; color: #666; font-size: 14px;">
+              Cordialement,<br>
+              <strong>L'équipe Seghaier Pièces Auto</strong>
+            </p>
+          </div>
+          <div style="background: #f5f5f5; padding: 15px; text-align: center; border-radius: 0 0 8px 8px; color: #666; font-size: 12px;">
+            <p style="margin: 0;">Seghaier Pièces Auto — infoseghaier@gmail.com</p>
+            <p style="margin: 0;">© ${new Date().getFullYear()} Tous droits réservés.</p>
+          </div>
+        </div>
+      `,
+      text: `
+        Message reçu
+        ------------
+        Bonjour ${name},
+        Nous avons bien reçu votre message et nous vous répondrons dans les plus brefs délais.
+        Votre message: "${message}"
+        Cordialement,
+        L'équipe Seghaier Pièces Auto
+      `,
+    };
+
+    try {
+      // Send email to you
+      await transporter.sendMail(mailOptions);
+      console.log('Contact email sent to infoseghaier@gmail.com');
+
+      // Send auto-reply to user
+      await transporter.sendMail(autoReplyOptions);
+      console.log('Auto-reply sent to:', email);
+
+      return { success: true, message: 'Email envoyé avec succès.' };
+    } catch (error) {
+      console.error('Contact email error:', error);
+      throw new Error('Erreur lors de l\'envoi de l\'email.');
+    }
+  }
 }
