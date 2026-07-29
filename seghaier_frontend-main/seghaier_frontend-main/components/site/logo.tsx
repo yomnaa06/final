@@ -1,21 +1,30 @@
-import Image from 'next/image'
-import { cn } from '@/lib/utils'
+// components/site/logo.tsx
+import Image from 'next/image';
 
-type LogoProps = {
-  className?: string
-}
-
-export function Logo({ className }: LogoProps) {
+export function Logo() {
   return (
-    <span className={cn('inline-flex items-center', className)}>
-      <Image
-        src="/images/logo.png"
-        alt="Seghaier Pièces Auto"
-        width={180}
-        height={180}
-        priority
-        className="h-12 w-12 shrink-0 object-contain md:h-14 md:w-14"
-      />
-    </span>
-  )
+    <div className="flex items-center gap-3 group">
+      {/* Logo Image */}
+      <div className="relative flex-shrink-0">
+        <Image
+          src="/images/logo.png"
+          alt="SEGHAIER Pièces Auto GROS"
+          width={60}
+          height={60}
+          className="w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 object-contain rounded-lg transition-transform duration-300 group-hover:scale-105"
+          priority
+        />
+      </div>
+      
+      {/* Text */}
+      <div className="leading-none">
+        <span className="block font-serif text-xl md:text-2xl lg:text-3xl font-bold text-foreground tracking-tight group-hover:text-blue-600 transition-colors duration-300">
+          SEGHAIER
+        </span>
+        <span className="block text-[9px] md:text-[10px] lg:text-[11px] font-semibold tracking-[0.28em] uppercase text-muted-foreground">
+          Pièces Auto — GROS
+        </span>
+      </div>
+    </div>
+  );
 }

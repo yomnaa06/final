@@ -1,19 +1,40 @@
-'use client'
+// components/site/navbar.tsx
+"use client";
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { Menu, X, ArrowUpRight, User, LayoutDashboard, LogOut, History } from 'lucide-react'
+import { Menu, X, ArrowUpRight, User, LayoutDashboard, LogOut, History, ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { NAV_LINKS } from '@/lib/site'
 import { Logo } from './logo'
 import { useAuth } from '@/lib/auth-context'
 
+// ===== CATEGORIES FOR DROPDOWN =====
+const categories = [
+  { slug: 'filtres', label: 'Filtration' },
+  { slug: 'fluides', label: 'Fluides' },
+  { slug: 'lubrifiants', label: 'Lubrifiants' },
+  { slug: 'freinage', label: 'Freinage' },
+  { slug: 'suspensions', label: 'Suspensions' },
+  { slug: 'refroidissement', label: 'Refroidissement' },
+  { slug: 'carrosserie', label: 'Carrosserie' },
+]
+
+// ===== NAVIGATION LINKS =====
+const NAV_LINKS = [
+  { href: '/', label: 'Accueil' },
+  { href: '/products', label: 'Catalogue' },
+  { href: '/about', label: 'À propos' },
+  { href: '/marques', label: 'Nos Marques' },
+  { href: '/contact', label: 'Contact' },
+]
+
 export function Navbar({ overlay = false }: { overlay?: boolean }) {
   const [scrolled, setScrolled] = useState(false)
-  const [open, setOpen]         = useState(false)
+  const [open, setOpen] = useState(false)
   const [accountOpen, setAccountOpen] = useState(false)
+  const [famillesOpen, setFamillesOpen] = useState(false)
   const { user, logout, isLoading } = useAuth()
   const router = useRouter()
 
@@ -55,7 +76,79 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
 
         {/* Desktop nav links */}
         <div className="hidden items-center gap-7 md:flex">
-          {NAV_LINKS.map((l) => (
+          {/* Accueil */}
+          <Link href="/"
+            className={cn(
+              'group relative text-sm font-medium transition-colors duration-200',
+              light ? 'text-white/80 hover:text-white' : 'text-foreground/60 hover:text-foreground',
+            )}>
+            Accueil
+            <span className={cn(
+              'absolute -bottom-0.5 left-0 h-px w-0 transition-all duration-300 group-hover:w-full',
+              light ? 'bg-white' : 'bg-brand-blue',
+            )} />
+          </Link>
+
+          {/* Familles - Dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setFamillesOpen(true)}
+            onMouseLeave={() => setFamillesOpen(false)}
+          >
+            <button
+              className={cn(
+                'group relative flex items-center gap-1 text-sm font-medium transition-colors duration-200',
+                light ? 'text-white/80 hover:text-white' : 'text-foreground/60 hover:text-foreground',
+              )}
+            >
+              Familles
+              <ChevronDown className={cn(
+                'size-3.5 transition-transform duration-200',
+                famillesOpen && 'rotate-180'
+              )} />
+              <span className={cn(
+                'absolute -bottom-0.5 left-0 h-px w-0 transition-all duration-300 group-hover:w-full',
+                light ? 'bg-white' : 'bg-brand-blue',
+              )} />
+            </button>
+
+            {/* Dropdown Menu */}
+            <AnimatePresence>
+              {famillesOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 4, scale: 0.96 }}
+                  transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute left-0 top-full mt-2 w-56 overflow-hidden rounded-xl border border-border bg-white py-2 shadow-xl shadow-brand-blue/8"
+                >
+                  {categories.map((cat) => (
+                    <Link
+                      key={cat.slug}
+                      href={`/products?collection=${cat.slug}`}
+                      onClick={() => setFamillesOpen(false)}
+                      className="flex items-center justify-between px-4 py-2.5 text-sm text-foreground transition-colors hover:bg-brand-blue-light hover:text-brand-blue"
+                    >
+                      <span>{cat.label}</span>
+                      <ArrowUpRight className="size-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </Link>
+                  ))}
+                  <div className="my-1 h-px bg-border" />
+                  <Link
+                    href="/products"
+                    onClick={() => setFamillesOpen(false)}
+                    className="flex items-center justify-between px-4 py-2.5 text-sm font-medium text-brand-blue transition-colors hover:bg-brand-blue-light"
+                  >
+                    <span>Voir tout le catalogue</span>
+                    <ArrowUpRight className="size-3.5" />
+                  </Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Rest of NAV_LINKS */}
+          {NAV_LINKS.slice(1).map((l) => (
             <Link key={l.href} href={l.href}
               className={cn(
                 'group relative text-sm font-medium transition-colors duration-200',
@@ -70,7 +163,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
           ))}
         </div>
 
-        {/* Desktop auth */}
+        {/* Desktop auth - keep your existing code */}
         <div className="hidden items-center gap-2.5 md:flex">
           {!isLoading && user ? (
             <>
@@ -187,6 +280,29 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
                   {l.label}
                 </Link>
               ))}
+              {/* Mobile Familles dropdown */}
+              <div className="mt-1 border-t border-border pt-2">
+                <p className="px-3 py-1.5 text-xs font-semibold tracking-[0.15em] uppercase text-muted-foreground">
+                  Familles
+                </p>
+                {categories.map((cat) => (
+                  <Link
+                    key={cat.slug}
+                    href={`/products?collection=${cat.slug}`}
+                    onClick={() => setOpen(false)}
+                    className="rounded-lg px-3 py-2 text-sm text-foreground hover:bg-brand-blue-light hover:text-brand-blue"
+                  >
+                    {cat.label}
+                  </Link>
+                ))}
+                <Link
+                  href="/products"
+                  onClick={() => setOpen(false)}
+                  className="mt-1 rounded-lg px-3 py-2 text-sm font-medium text-brand-blue hover:bg-brand-blue-light"
+                >
+                  Voir tout le catalogue
+                </Link>
+              </div>
               <div className="mt-3 flex flex-col gap-2 border-t border-border pt-3">
                 {user ? (
                   <>

@@ -1,40 +1,64 @@
-import Link from 'next/link'
-import { Reveal } from '@/components/site/reveal'
-import { ArrowUpRight, ArrowRight } from 'lucide-react'
+// components/home/cta.tsx
+"use client";
+
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import LoaderAnimation from '@/components/site/LoaderAnimation';
 
 export function CtaBand() {
   return (
-    <section className="bg-background">
-      <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
-        <Reveal>
-          <div className="rounded-2xl border border-border bg-secondary px-6 py-14 text-center md:px-16 md:py-20">
-            <p className="label-eyebrow">Passons à l&apos;action</p>
-            <h2 className="mx-auto mt-5 max-w-2xl text-balance text-3xl font-semibold leading-[1.1] tracking-display md:text-5xl">
-              Obtenez votre devis en quelques minutes.
+    <section className="w-full">
+      {/* ===== FULL WIDTH CARD - NO CONTAINER ===== */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="relative w-full overflow-hidden rounded-none bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 shadow-2xl mx-0"
+      >
+        {/* Red accent line at top */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent" />
+        
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-red-500/5 rounded-full blur-3xl -mr-32 -mt-32" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-400/5 rounded-full blur-3xl -ml-32 -mb-32" />
+
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 p-8 md:p-12 lg:p-14 w-full max-w-7xl mx-auto">
+          
+          {/* ===== LEFT: Text ===== */}
+          <div className="text-white flex-1">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold leading-tight">
+              Nous sommes là pour vous
             </h2>
-            <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-muted-foreground">
-              Sélectionnez vos gammes, précisez votre demande et recevez une
-              proposition adaptée à votre activité.
+            
+            <p className="text-base md:text-lg text-white/60 leading-relaxed mt-3 max-w-md">
+              Une question, un devis, une réclamation ? Notre équipe est à votre écoute.
             </p>
-            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Link
-                href="/devis"
-                className="group inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition-all duration-200 hover:bg-primary/90"
-              >
-                Construire mon devis
-                <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </Link>
-              <Link
-                href="/reclamation"
-                className="group inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-background px-6 py-3.5 text-sm font-medium text-foreground transition-all duration-200 hover:border-foreground/20 hover:bg-secondary"
-              >
-                Adresser une réclamation
-                <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
-              </Link>
-            </div>
+
+            {/* Contact Button */}
+            <Link
+              href="/contact"
+              className="group inline-flex items-center gap-3 bg-white text-blue-900 px-8 py-3.5 rounded-xl font-semibold text-sm shadow-xl shadow-blue-900/30 hover:shadow-blue-900/50 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] mt-6"
+            >
+              <span>Contactez-nous</span>
+              <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform duration-300" />
+            </Link>
           </div>
-        </Reveal>
-      </div>
+
+          {/* ===== RIGHT: Loader Animation ===== */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="flex-shrink-0"
+          >
+            <LoaderAnimation />
+          </motion.div>
+          
+        </div>
+      </motion.div>
     </section>
-  )
+  );
 }
