@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { AnimatePresence, motion } from 'motion/react'
+import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { AnimatePresence, motion } from 'motion/react';
 import {
   ArrowLeft,
   ArrowRight,
@@ -16,44 +16,44 @@ import {
   Package,
   LogIn,
   AlertCircle,
-} from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { PRODUCT_CATEGORIES, BRANCHES } from '@/lib/site'
-import { Stepper } from './stepper'
-import { FloatingTextarea } from '@/components/ui/floating-field'
-import { devisApi } from '@/lib/api'
-import { useAuth } from '@/lib/auth-context'
+  ShoppingBag,
+  Trash2,
+  Plus,
+  Minus,
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { PRODUCT_CATEGORIES, BRANCHES } from '@/lib/site';
+import { Stepper } from './stepper';
+import { FloatingTextarea } from '@/components/ui/floating-field';
+import { devisApi } from '@/lib/api';
+import { useAuth } from '@/lib/auth-context';
+import { useDevis } from '@/hooks/useDevis';
+import { collections } from '@/data/products';
 
-// Map frontend branch ids to backend values
+// ids front to back valeurs
 const BRANCH_BACKEND: Record<string, string> = {
   'pieces-auto': 'E.A.S.C. Pièces Auto',
   gros: 'E.A.S.C. Gros',
   aps: 'APS',
-}
+};
 
 const schema = z.object({
-  categories: z.array(z.string()).min(1, 'Sélectionnez au moins une gamme'),
   details: z.string().min(10, 'Précisez votre demande (10 caractères min.)'),
   branch: z.string().min(1, 'Choisissez un destinataire'),
-})
+});
 
-type FormValues = z.infer<typeof schema>
+type FormValues = z.infer<typeof schema>;
 
-const STEPS = ['Produits', 'Destinataire', 'Confirmation']
-const ease = [0.22, 1, 0.36, 1] as const
-
-const fieldsPerStep: (keyof FormValues)[][] = [
-  ['categories', 'details'],
-  ['branch'],
-  [],
-]
+const STEPS = ['Destinataire', 'Confirmation'];
+const ease = [0.22, 1, 0.36, 1] as const;
 
 export function QuoteForm() {
-  const [step, setStep] = useState(0)
-  const [done, setDone] = useState(false)
-  const [serverError, setServerError] = useState<string | null>(null)
-  const { user } = useAuth()
-  const router = useRouter()
+  const [step, setStep] = useState(0);
+  const [done, setDone] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
+  const { user } = useAuth();
+  const { items, removeItem, updateQuantity, totalItems, clearDevis } = useDevis();
+  const router = useRouter();
 
   const {
     register,
@@ -65,37 +65,69 @@ export function QuoteForm() {
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     mode: 'onTouched',
-    defaultValues: { categories: [], details: '', branch: '' },
-  })
+    defaultValues: { details: '', branch: '' },
+  });
 
-  const values = watch()
-  const selectedBranch = BRANCHES.find((b) => b.id === values.branch)
+  const values = watch();
+  const selectedBranch = BRANCHES.find((b) => b.id === values.branch);
+
+  // detection auto des categories ml selected products
+  const getProductCategories = () => {
+    const categoryIds = new Set<string>();
+    items.forEach((item) => {
+      const collection = collections.find((c) => 
+        c.name.toLowerCase() === item.brand?.toLowerCase() || 
+        c.id === item.productId?.split('-')[0]
+      );
+      if (collection) {
+        categoryIds.add(collection.id);
+      }
+    });
+    return Array.from(categoryIds);
+  };
+
+  const autoCategories = getProductCategories();
+  const categoryLabels = autoCategories
+    .map((id) => PRODUCT_CATEGORIES.find((c) => c.id === id)?.label)
+    .filter(Boolean);
+
+  const handleQuantityChange = (productId: string, newQuantity: number) => {
+    if (newQuantity < 1) return;
+    updateQuantity(productId, newQuantity);
+  };
 
   async function next() {
-    const valid = await trigger(fieldsPerStep[step])
-    if (valid) setStep((s) => Math.min(s + 1, STEPS.length - 1))
+    const valid = await trigger(['branch']);
+    if (valid) setStep((s) => Math.min(s + 1, STEPS.length - 1));
   }
 
   async function onSubmit(formValues: FormValues) {
-    setServerError(null)
+    setServerError(null);
     if (!user) {
-      router.push('/login')
-      return
+      router.push('/login');
+      return;
     }
     try {
+      // Build liste produits pour devis
+      const productList = items.map((item) => 
+        `${item.name} (x${item.quantity})`
+      ).join(', ');
+
       await devisApi.create({
         brancheContact: BRANCH_BACKEND[formValues.branch] ?? formValues.branch,
-        produitDesire: formValues.categories.join(', '),
-        description: formValues.details,
-      })
-      setDone(true)
+        produitDesire: productList || 'Demande personnalisée',
+        description: `${formValues.details}\n\n${items.length > 0 ? 'Produits sélectionnés :\n' + items.map((item) => 
+          `- ${item.name} (x${item.quantity}) - ${item.brand || 'Marque'}`).join('\n') : 'Aucun produit sélectionné - demande personnalisée'}`,
+      });
+      setDone(true);
+      clearDevis();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Erreur lors de l\'envoi.'
-      setServerError(msg)
+      const msg = err instanceof Error ? err.message : 'Erreur lors de l\'envoi.';
+      setServerError(msg);
     }
   }
 
-  // Not authenticated — show CTA
+  // mch authenticated, show cta
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center rounded-2xl border border-border bg-secondary p-12 text-center">
@@ -123,7 +155,7 @@ export function QuoteForm() {
           </Link>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -191,74 +223,91 @@ export function QuoteForm() {
                   </div>
                 )}
 
-                {/* Step 1 — Products */}
-                {step === 0 && (
-                  <div className="space-y-8">
-                    <div>
-                      <h2 className="text-xl font-semibold">Produit désiré</h2>
-                      <p className="mt-1.5 text-sm text-muted-foreground">
-                        Sélectionnez une ou plusieurs gammes.
-                      </p>
-                      <Controller
-                        control={control}
-                        name="categories"
-                        render={({ field }) => (
-                          <div className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
-                            {PRODUCT_CATEGORIES.map((c) => {
-                              const checked = field.value.includes(c.id)
-                              return (
-                                <button
-                                  type="button"
-                                  key={c.id}
-                                  onClick={() =>
-                                    field.onChange(
-                                      checked
-                                        ? field.value.filter((v) => v !== c.id)
-                                        : [...field.value, c.id],
-                                    )
-                                  }
-                                  className={cn(
-                                    'group flex items-center justify-between gap-2 rounded-xl border px-4 py-3.5 text-left text-sm font-medium transition-all duration-200',
-                                    checked
-                                      ? 'border-foreground bg-foreground text-background'
-                                      : 'border-border bg-background text-foreground hover:border-foreground/30',
-                                  )}
-                                >
-                                  {c.label}
-                                  <span
-                                    className={cn(
-                                      'flex size-5 items-center justify-center rounded-full border transition-colors',
-                                      checked
-                                        ? 'border-background bg-background text-foreground'
-                                        : 'border-border',
-                                    )}
-                                  >
-                                    {checked && <Check className="size-3" />}
-                                  </span>
-                                </button>
-                              )
-                            })}
-                          </div>
-                        )}
-                      />
-                      {errors.categories && (
-                        <p className="mt-2 text-xs text-destructive">
-                          {errors.categories.message}
-                        </p>
-                      )}
+                {/* products summary */}
+                {items.length > 0 && (
+                  <div className="mb-8 rounded-2xl border border-border bg-secondary p-5">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <ShoppingBag className="size-5 text-brand-blue" />
+                        <span className="font-medium">
+                          {totalItems()} produit{totalItems() > 1 ? 's' : ''} sélectionné{totalItems() > 1 ? 's' : ''}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={clearDevis}
+                        className="text-sm text-red-600 hover:text-red-700 transition-colors"
+                      >
+                        Tout supprimer
+                      </button>
                     </div>
-
-                    <FloatingTextarea
-                      label="Spécifiez votre demande"
-                      rows={5}
-                      error={errors.details?.message}
-                      {...register('details')}
-                    />
+                    <div className="mt-3 space-y-2">
+                      {items.map((item) => (
+                        <div key={item.productId} className="flex items-center justify-between bg-background rounded-lg px-3 py-2">
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium truncate">{item.name}</p>
+                            <p className="text-xs text-muted-foreground">{item.brand || 'Marque'}</p>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-1">
+                              <button
+                                type="button"
+                                onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
+                                className="p-1 hover:bg-gray-100 rounded transition-colors"
+                              >
+                                <Minus className="size-3 text-gray-500" />
+                              </button>
+                              <span className="w-6 text-center text-sm font-medium">{item.quantity}</span>
+                              <button
+                                type="button"
+                                onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}
+                                className="p-1 hover:bg-gray-100 rounded transition-colors"
+                              >
+                                <Plus className="size-3 text-gray-500" />
+                              </button>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => removeItem(item.productId)}
+                              className="text-gray-400 hover:text-red-600 transition-colors"
+                            >
+                              <Trash2 className="size-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
 
-                {/* Step 2 — Recipient */}
-                {step === 1 && (
+                {items.length === 0 && (
+                  <div className="mb-8 rounded-2xl border border-border bg-secondary p-8 text-center">
+                    <ShoppingBag className="size-10 text-muted-foreground mx-auto mb-3" />
+                    <p className="text-muted-foreground">Aucun produit sélectionné</p>
+                    <p className="text-sm text-muted-foreground/60 mt-1">
+                      Vous pouvez quand même faire une demande personnalisée
+                    </p>
+                    <Link
+                      href="/products"
+                      className="inline-block mt-3 text-sm text-brand-blue hover:underline"
+                    >
+                      Parcourir le catalogue →
+                    </Link>
+                  </div>
+                )}
+
+                {/* partie de description */}
+                <div className="mb-6">
+                  <FloatingTextarea
+                    label="Décrivez votre besoin"
+                    rows={4}
+                    error={errors.details?.message}
+                    {...register('details')}
+                  />
+                </div>
+
+                {/* 1: recipient */}
+                {step === 0 && (
                   <div>
                     <h2 className="text-xl font-semibold">
                       Choisissez votre destinataire
@@ -272,7 +321,7 @@ export function QuoteForm() {
                       render={({ field }) => (
                         <div className="mt-5 space-y-3">
                           {BRANCHES.map((b) => {
-                            const active = field.value === b.id
+                            const active = field.value === b.id;
                             return (
                               <button
                                 type="button"
@@ -282,7 +331,7 @@ export function QuoteForm() {
                                   'flex w-full items-center justify-between gap-4 rounded-xl border px-5 py-5 text-left transition-all duration-200',
                                   active
                                     ? 'border-foreground bg-muted/50'
-                                    : 'border-border bg-background hover:border-foreground/30',
+                                    : 'border-border bg-background hover:border-foreground/30'
                                 )}
                               >
                                 <div className="flex items-center gap-4">
@@ -291,7 +340,7 @@ export function QuoteForm() {
                                       'flex size-10 items-center justify-center rounded-lg transition-colors',
                                       active
                                         ? 'bg-accent text-accent-foreground'
-                                        : 'bg-secondary text-foreground',
+                                        : 'bg-secondary text-foreground'
                                     )}
                                   >
                                     <Package className="size-5" />
@@ -308,13 +357,13 @@ export function QuoteForm() {
                                     'flex size-5 items-center justify-center rounded-full border transition-colors',
                                     active
                                       ? 'border-foreground bg-foreground text-background'
-                                      : 'border-border',
+                                      : 'border-border'
                                   )}
                                 >
                                   {active && <Check className="size-3" />}
                                 </span>
                               </button>
-                            )
+                            );
                           })}
                         </div>
                       )}
@@ -327,28 +376,56 @@ export function QuoteForm() {
                   </div>
                 )}
 
-                {/* Step 3 — Confirm */}
-                {step === 2 && (
+                {/* 2: confirmation */}
+                {step === 1 && (
                   <div className="space-y-6">
                     <h2 className="text-xl font-semibold">Confirmer votre demande</h2>
+                    
                     <div className="rounded-2xl border border-border bg-secondary p-6 space-y-4">
+                      {/* produits */}
+                      {items.length > 0 && (
+                        <div>
+                          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                            <ShoppingBag className="size-3.5" />
+                            Produits sélectionnés ({totalItems()})
+                          </p>
+                          <div className="mt-2 space-y-1">
+                            {items.map((item) => (
+                              <div key={item.productId} className="flex justify-between text-sm bg-background rounded-lg px-3 py-1.5">
+                                <span className="truncate">{item.name}</span>
+                                <span className="font-medium">x{item.quantity}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* autodetection des catgs */}
+                      {categoryLabels.length > 0 && (
+                        <div>
+                          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Gammes concernées</p>
+                          <div className="mt-1 flex flex-wrap gap-1.5">
+                            {categoryLabels.map((label) => (
+                              <span key={label} className="rounded-lg bg-background px-2.5 py-1 text-xs font-medium ring-1 ring-border">
+                                {label}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                       <div>
-                        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Gammes sélectionnées</p>
-                        <p className="mt-1 font-medium">
-                          {values.categories
-                            .map((id) => PRODUCT_CATEGORIES.find((c) => c.id === id)?.label)
-                            .filter(Boolean)
-                            .join(', ')}
+                        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Description</p>
+                        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                          {values.details || 'Non renseigné'}
                         </p>
                       </div>
+
                       <div>
                         <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Destinataire</p>
                         <p className="mt-1 font-medium">{selectedBranch?.name}</p>
                       </div>
-                      <div>
-                        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Détails</p>
-                        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{values.details}</p>
-                      </div>
+
                       <div>
                         <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Compte</p>
                         <p className="mt-1 text-sm">{user.email}</p>
@@ -357,7 +434,7 @@ export function QuoteForm() {
                   </div>
                 )}
 
-                {/* Nav buttons */}
+                {/* boutts nav */}
                 <div className="mt-10 flex items-center justify-between">
                   <button
                     type="button"
@@ -401,28 +478,43 @@ export function QuoteForm() {
         </div>
       </div>
 
-      {/* Sidebar summary */}
+      {/* sidebar */}
       <div className="hidden lg:block">
         <div className="sticky top-28 rounded-2xl border border-border bg-secondary p-6">
           <p className="label-eyebrow">Résumé</p>
           <div className="mt-5 space-y-4">
-            <div>
-              <p className="text-xs font-medium text-muted-foreground">Gammes</p>
-              {values.categories.length === 0 ? (
-                <p className="mt-1 text-sm text-muted-foreground/60">—</p>
-              ) : (
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {values.categories.map((id) => (
-                    <span
-                      key={id}
-                      className="rounded-lg bg-background px-2.5 py-1 text-xs font-medium ring-1 ring-border"
-                    >
-                      {PRODUCT_CATEGORIES.find((c) => c.id === id)?.label}
+            {/* produits */}
+            {items.length > 0 && (
+              <div>
+                <p className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+                  <ShoppingBag className="size-3.5" />
+                  Produits ({totalItems()})
+                </p>
+                <div className="mt-2 space-y-1.5">
+                  {items.map((item) => (
+                    <div key={item.productId} className="flex justify-between text-sm">
+                      <span className="truncate">{item.name}</span>
+                      <span className="font-medium">x{item.quantity}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* autodection produits */}
+            {categoryLabels.length > 0 && (
+              <div>
+                <p className="text-xs font-medium text-muted-foreground">Gammes concernées</p>
+                <div className="mt-1 flex flex-wrap gap-1.5">
+                  {categoryLabels.map((label) => (
+                    <span key={label} className="rounded-lg bg-background px-2.5 py-1 text-xs font-medium ring-1 ring-border">
+                      {label}
                     </span>
                   ))}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
+
             <div>
               <p className="text-xs font-medium text-muted-foreground">Destinataire</p>
               <p className="mt-1 text-sm font-medium">
@@ -433,5 +525,5 @@ export function QuoteForm() {
         </div>
       </div>
     </div>
-  )
+  );
 }

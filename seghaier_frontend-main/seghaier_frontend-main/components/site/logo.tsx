@@ -1,10 +1,9 @@
-// components/site/logo.tsx
 import Image from 'next/image';
 
 export function Logo() {
   return (
     <div className="flex items-center gap-3 group">
-      {/* Logo Image */}
+      {/* logo */}
       <div className="relative flex-shrink-0">
         <Image
           src="/images/logo.png"
@@ -16,7 +15,7 @@ export function Logo() {
         />
       </div>
       
-      {/* Text */}
+      {/* text */}
       <div className="leading-none">
         <span className="block font-serif text-xl md:text-2xl lg:text-3xl font-bold text-foreground tracking-tight group-hover:text-blue-600 transition-colors duration-300">
           SEGHAIER

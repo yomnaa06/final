@@ -21,7 +21,7 @@ type AuthState = {
 
 const AuthContext = createContext<AuthState | null>(null)
 
-/** Decode JWT payload without a library — just base64url-decode the middle part */
+// decode jwt token sans librairie , base64url_decoder
 function getTokenExpiry(token: string): number | null {
   try {
     const payload = token.split('.')[1]
@@ -35,7 +35,7 @@ function getTokenExpiry(token: string): number | null {
 function isTokenExpired(token: string): boolean {
   const exp = getTokenExpiry(token)
   if (exp === null) return true
-  // Give a 10-second buffer
+  // 10-second buffer
   return Date.now() / 1000 >= exp - 10
 }
 
@@ -44,7 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  /** Rehydrate from localStorage on mount — verify token isn't expired */
+  // verification que token expired
   useEffect(() => {
     try {
       const stored = localStorage.getItem('token')
@@ -52,7 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (stored && storedUser) {
         if (isTokenExpired(stored)) {
-          // Token is expired — clear everything, let user log in again
+          // token is expire , clearing tt, letting user login again
           localStorage.removeItem('token')
           localStorage.removeItem('user')
         } else {

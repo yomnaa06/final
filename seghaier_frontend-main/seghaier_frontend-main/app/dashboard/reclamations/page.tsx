@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import {
   Loader2, Search, Send, CheckCircle2,
   XCircle, X, MessageSquare, ChevronDown, ChevronUp,
@@ -85,7 +85,7 @@ export default function AdminReclamationsPage() {
         <p className="mt-1 text-sm text-muted-foreground">Répondez aux réclamations de vos clients</p>
       </div>
 
-      {/* KPI strip */}
+      {/*  kpi */}
       <div className="grid grid-cols-3 gap-2">
         {[
           { label: 'Total',      value: counts.total,   key: 'ALL',        accent: 'text-foreground',  stripe: 'bg-foreground'  },
@@ -110,7 +110,7 @@ export default function AdminReclamationsPage() {
         ))}
       </div>
 
-      {/* Search */}
+      {/* search */}
       <div className="relative">
         <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <input
@@ -143,9 +143,8 @@ export default function AdminReclamationsPage() {
             </thead>
             <tbody className="divide-y divide-border">
               {filtered.map((r) => (
-                <>
+                <React.Fragment key={r.id}>
                   <tr
-                    key={r.id}
                     onClick={() => setExpanded(expanded === r.id ? null : r.id)}
                     className="cursor-pointer transition-colors hover:bg-muted/30"
                   >
@@ -187,7 +186,7 @@ export default function AdminReclamationsPage() {
                   </tr>
 
                   {expanded === r.id && (
-                    <tr key={`${r.id}-exp`} className="bg-muted/20">
+                    <tr className="bg-muted/20">
                       <td colSpan={6} className="px-5 py-5">
                         <div className="grid gap-4 sm:grid-cols-2">
                           <div>
@@ -204,14 +203,14 @@ export default function AdminReclamationsPage() {
                       </td>
                     </tr>
                   )}
-                </>
+                </React.Fragment>
               ))}
             </tbody>
           </table>
         </div>
       )}
 
-      {/* Reply modal */}
+      {/* repondre */}
       {replyId !== null && replyRec && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
           <div className="w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-background shadow-2xl">

@@ -1,4 +1,3 @@
-// app/contact/page.tsx
 "use client";
 
 import { useState } from 'react';
@@ -6,7 +5,7 @@ import { Navbar } from '@/components/site/navbar';
 import { Footer } from '@/components/site/footer';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
-import { contactApi } from '@/lib/api'; // ← Use contactApi
+import { contactApi } from '@/lib/api'; 
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -53,7 +52,7 @@ export default function ContactPage() {
       <main className="pt-[70px] min-h-screen bg-gray-50">
         <div className="container mx-auto max-w-7xl px-5 py-16 md:py-24">
 
-          {/* Header */}
+          {/* header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -72,7 +71,7 @@ export default function ContactPage() {
           </motion.div>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Contact Info */}
+            {/* info contact */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -128,7 +127,7 @@ export default function ContactPage() {
               </div>
             </motion.div>
 
-            {/* Contact Form */}
+            {/* forme de contact */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}

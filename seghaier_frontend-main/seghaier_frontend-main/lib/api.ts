@@ -1,8 +1,3 @@
-// lib/api.ts
-/**
- * Centralized API client — all requests go through here.
- * The base URL comes from NEXT_PUBLIC_API_URL (default: http://localhost:3000).
- */
 
  const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
 
@@ -40,7 +35,7 @@
      throw new Error('Impossible de contacter le serveur. Vérifiez que le backend est démarré sur le port 3000.')
    }
  
-   // Parse JSON safely — some endpoints return plain text on error
+   // parsing json
    let json: Record<string, unknown>
    try {
      json = await res.json()
@@ -49,7 +44,7 @@
    }
  
    if (!res.ok) {
-     // Use the exact backend message so the user sees what really went wrong
+     // use backend message so user yefhem what went wrong
      const msg =
        (json.message as string) ||
        (json.error as string) ||
@@ -60,7 +55,7 @@
    return json as T
  }
  
- // ─── Auth ────────────────────────────────────────────────────────────────────
+ // authentification
  
  export type LoginPayload = {
    email: string
@@ -108,7 +103,7 @@
    id: number
    email: string
    role: 'CLIENT' | 'ADMIN'
-   // client fields
+   // client
    clientType?: 'INDIVIDUEL' | 'SOCIETE'
    nom?: string
    prenom?: string
@@ -119,7 +114,7 @@
    matriculeFiscal?: string
    brancheContact?: string
    produitsInterets?: string
-   // admin fields
+   // admin 
    username?: string
    dateCreation?: string
  }
@@ -155,7 +150,7 @@
      }),
  }
  
- // ─── Devis ───────────────────────────────────────────────────────────────────
+ // devis
  
  export type Devis = {
    id: number
@@ -184,7 +179,7 @@
    listAll: () =>
      request<{ success: boolean; data: Devis[] }>('/api/devis/admin'),
  
-   /** Validate a devis with an optional PDF attachment — uses multipart/form-data */
+   // validation de pdf  w pdf envoie
    validateWithFile: async (id: number, file: File, description?: string): Promise<{ success: boolean; data: Devis }> => {
      const token = getToken()
      const formData = new FormData()
@@ -215,7 +210,7 @@
      }),
  }
  
- // ─── Reclamations ────────────────────────────────────────────────────────────
+ // reclamation
  
  export type Reclamation = {
    id: number
@@ -309,7 +304,7 @@
      request<{ success: boolean; data: { stats: DashboardStats } }>('/api/admin/stats'),
  }
  
- // ─── NEW: Contact ────────────────────────────────────────────────────────────
+ // contact
  
  export type ContactPayload = {
    name: string
@@ -323,6 +318,6 @@
      request<{ success: boolean; message: string }>('/api/contact', {
        method: 'POST',
        body: data,
-       auth: false, // No auth needed for contact form
+       auth: false, // zeyed authentification
      }),
  }

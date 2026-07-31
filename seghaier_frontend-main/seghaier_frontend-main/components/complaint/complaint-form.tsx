@@ -85,7 +85,7 @@ export function ComplaintForm() {
     }
   }
 
-  // Not authenticated
+  // pas authentifie
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center rounded-2xl border border-border bg-secondary p-12 text-center">

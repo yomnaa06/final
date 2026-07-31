@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback, useRef } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import {
   CheckCircle2, XCircle, Loader2, Search,
   Paperclip, X, FileText, ChevronDown, ChevronUp,
@@ -87,7 +87,7 @@ export default function AdminDevisPage() {
   return (
     <div className="space-y-6">
 
-      {/* Toast */}
+      {/* toast */}
       {toast && (
         <div className={`fixed right-6 top-6 z-50 flex items-center gap-2.5 rounded-2xl px-5 py-3 text-sm font-medium shadow-lg ${
           toast.ok ? 'bg-foreground text-background' : 'bg-destructive text-white'
@@ -103,7 +103,7 @@ export default function AdminDevisPage() {
         <p className="mt-1 text-sm text-muted-foreground">Traitez les demandes de devis clients</p>
       </div>
 
-      {/* KPI strip */}
+      {/* kpi */}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {[
           { label: 'Total',      value: counts.total,     key: 'ALL',        accent: 'text-foreground',    stripe: 'bg-foreground'       },
@@ -129,7 +129,7 @@ export default function AdminDevisPage() {
         ))}
       </div>
 
-      {/* Search */}
+      {/* search */}
       <div className="relative">
         <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <input
@@ -140,7 +140,7 @@ export default function AdminDevisPage() {
         />
       </div>
 
-      {/* Table */}
+      {/* table */}
       {loading ? (
         <div className="flex h-48 items-center justify-center">
           <Loader2 className="size-6 animate-spin text-muted-foreground" />
@@ -165,9 +165,8 @@ export default function AdminDevisPage() {
             </thead>
             <tbody className="divide-y divide-border">
               {filtered.map((d) => (
-                <>
+                <React.Fragment key={d.id}>
                   <tr
-                    key={d.id}
                     onClick={() => setExpanded(expanded === d.id ? null : d.id)}
                     className="cursor-pointer transition-colors hover:bg-muted/30"
                   >
@@ -215,7 +214,7 @@ export default function AdminDevisPage() {
                   </tr>
 
                   {expanded === d.id && (
-                    <tr key={`${d.id}-exp`} className="bg-muted/20">
+                    <tr className="bg-muted/20">
                       <td colSpan={6} className="px-5 py-5">
                         <div className="grid gap-4 sm:grid-cols-2">
                           <div>
@@ -244,14 +243,14 @@ export default function AdminDevisPage() {
                       </td>
                     </tr>
                   )}
-                </>
+                </React.Fragment>
               ))}
             </tbody>
           </table>
         </div>
       )}
 
-      {/* Validate modal */}
+      {/* valider */}
       {modal?.type === 'validate' && (
         <ModalShell
           title="Valider le devis"
@@ -307,7 +306,7 @@ export default function AdminDevisPage() {
         </ModalShell>
       )}
 
-      {/* Refuse modal */}
+      {/* refuser */}
       {modal?.type === 'refuse' && (
         <ModalShell
           title="Refuser le devis"

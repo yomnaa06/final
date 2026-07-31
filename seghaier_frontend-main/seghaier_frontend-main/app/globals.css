@@ -43,7 +43,7 @@
 :root {
   color-scheme: light;
 
-  /* Pure white ground — Al Rajhi style */
+  /* white ground */
   --background:             #ffffff;
   --foreground:             #0d0d0d;
   --card:                   #ffffff;
@@ -51,30 +51,30 @@
   --popover:                #ffffff;
   --popover-foreground:     #0d0d0d;
 
-  /* Primary = deep charcoal, used only for text/borders not backgrounds */
+  /* text/borders */
   --primary:                #1a1a1a;
   --primary-foreground:     #ffffff;
 
-  /* Light grey section backgrounds */
+  /* light grey bckgds */
   --secondary:              #f7f7f7;
   --secondary-foreground:   #1a1a1a;
   --muted:                  #f0f0f0;
   --muted-foreground:       #717171;
 
-  /* Accent = brand blue (used sparingly) */
+  /* accent bleue mtaa logo */
   --accent:                 #1b3d6f;
   --accent-foreground:      #ffffff;
 
-  /* ── Brand colours ── */
-  /* Blue: deep professional navy */
+  /* societe colours */
+  /* Bleue */
   --brand-blue:             #1b3d6f;
   --brand-blue-light:       #edf2fb;
 
-  /* Red: the hero colour — confident, not alarming */
+  /* rouge:  */
   --brand-red:              #c0160c;
   --brand-red-light:        #fdf3f2;
 
-  /* Dark panel for hero / footer */
+  /* dark pannel */
   --steel:                  #0f0f0f;
   --steel-foreground:       #f0f0f0;
 
@@ -105,7 +105,7 @@
 }
 
 @layer utilities {
-  /* Eyebrow — red by default (Al Rajhi uses red accents for section labels) */
+  /* Eyebrow  */
   .label-eyebrow {
     @apply font-mono text-[10.5px] font-semibold uppercase tracking-[0.24em] text-brand-red;
   }
@@ -116,7 +116,7 @@
 
   .tracking-display { letter-spacing: -0.03em; }
 
-  /* Thin red rule — decorative */
+  /* thin red rule */
   .red-rule {
     display: inline-block;
     width: 2.5rem;
@@ -124,7 +124,7 @@
     background: var(--brand-red);
     border-radius: 99px;
   }
-/* Add this to your global CSS */
+/* fading effect */
  @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -141,7 +141,7 @@
 }
 
 
-/* app/globals.css */
+/* loader animation */
 
 .loader {
   position: relative;
@@ -241,7 +241,7 @@
   z-index: 1;
   border-radius: 50ch;
   border: none;
-  font-size: 0.9em;
+  font-size: 1.05em;
 }
 
 .loader-letter:nth-child(1) { animation-delay: 0s; }
@@ -272,4 +272,47 @@
     opacity: 0.7;
     transform: translateY(0);
   }
-}}
+}
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
+.font-serif {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+@keyframes borderLineTop {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes borderLineRight {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes borderLineBottom {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes borderLineLeft {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+
+}

@@ -31,7 +31,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fr" className={`${manrope.variable} ${geistMono.variable} bg-background`}>
+    <html 
+      lang="fr" 
+      className={`${manrope.variable} ${geistMono.variable} bg-background`}
+      data-scroll-behavior="smooth"
+    >
       <body className="font-sans antialiased">
         <AuthProvider>{children}</AuthProvider>
       </body>

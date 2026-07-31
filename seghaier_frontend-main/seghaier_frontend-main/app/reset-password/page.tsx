@@ -37,7 +37,7 @@ function ResetPasswordForm() {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({ resolver: zodResolver(schema) })
 
-  // No token in URL — show error immediately
+  // no token f lien, mark l'erreur
   if (!token) {
     return (
       <div className="flex items-start gap-3 rounded-2xl border border-destructive/30 bg-destructive/5 px-5 py-4">

@@ -1,4 +1,3 @@
-// components/site/navbar.tsx
 "use client";
 
 import Link from 'next/link'
@@ -10,7 +9,7 @@ import { cn } from '@/lib/utils'
 import { Logo } from './logo'
 import { useAuth } from '@/lib/auth-context'
 
-// ===== CATEGORIES FOR DROPDOWN =====
+// categories ml liste
 const categories = [
   { slug: 'filtres', label: 'Filtration' },
   { slug: 'fluides', label: 'Fluides' },
@@ -21,7 +20,7 @@ const categories = [
   { slug: 'carrosserie', label: 'Carrosserie' },
 ]
 
-// ===== NAVIGATION LINKS =====
+// navigation des lienss
 const NAV_LINKS = [
   { href: '/', label: 'Accueil' },
   { href: '/products', label: 'Catalogue' },
@@ -69,14 +68,14 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
     )}>
       <nav className="mx-auto flex h-[70px] max-w-7xl items-center justify-between px-5 md:px-8">
 
-        {/* Logo */}
+        {/* logo */}
         <Link href="/" aria-label="Seghaier Auto Parts">
           <Logo />
         </Link>
 
-        {/* Desktop nav links */}
+        {/* nav links de desktop */}
         <div className="hidden items-center gap-7 md:flex">
-          {/* Accueil */}
+          {/* acceuil */}
           <Link href="/"
             className={cn(
               'group relative text-sm font-medium transition-colors duration-200',
@@ -89,7 +88,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
             )} />
           </Link>
 
-          {/* Familles - Dropdown */}
+          {/* familles dropdown */}
           <div
             className="relative"
             onMouseEnter={() => setFamillesOpen(true)}
@@ -112,7 +111,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
               )} />
             </button>
 
-            {/* Dropdown Menu */}
+            {/* menu drpdwn */}
             <AnimatePresence>
               {famillesOpen && (
                 <motion.div
@@ -147,7 +146,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
             </AnimatePresence>
           </div>
 
-          {/* Rest of NAV_LINKS */}
+          {/* reste des liens de navgs */}
           {NAV_LINKS.slice(1).map((l) => (
             <Link key={l.href} href={l.href}
               className={cn(
@@ -163,7 +162,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
           ))}
         </div>
 
-        {/* Desktop auth - keep your existing code */}
+        {/* navig desktop */}
         <div className="hidden items-center gap-2.5 md:flex">
           {!isLoading && user ? (
             <>
@@ -255,7 +254,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
           ) : null}
         </div>
 
-        {/* Mobile toggle */}
+        {/* mobile toggle */}
         <button type="button" onClick={() => setOpen(v => !v)} aria-label="Menu"
           className={cn('md:hidden inline-flex size-9 items-center justify-center rounded-lg transition-colors',
             light ? 'text-white' : 'text-foreground hover:bg-brand-blue-light')}>
@@ -263,7 +262,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
         </button>
       </nav>
 
-      {/* Mobile menu */}
+      {/* menu mobile */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -280,7 +279,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
                   {l.label}
                 </Link>
               ))}
-              {/* Mobile Familles dropdown */}
+              {/* fmilles drpdwn mobile */}
               <div className="mt-1 border-t border-border pt-2">
                 <p className="px-3 py-1.5 text-xs font-semibold tracking-[0.15em] uppercase text-muted-foreground">
                   Familles
