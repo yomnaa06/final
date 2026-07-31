@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int       @id @default(autoincrement())
+  email            String    @unique
+  password         String
+  role             Role      @default(CLIENT)
+  dateCreation     DateTime  @default(now()) @map("date_creation")
+  resetToken       String?   @map("reset_token")
+  resetTokenExpiry DateTime? @map("reset_token_expiry")
+  admin            Admin?
+  client           Client?
+
+  @@map("users")
+}
+
+model Client {
+  id               Int           @id
+  clientType       ClientType    @default(INDIVIDUEL) @map("client_type")
+  nom              String
+  prenom           String?
+  telephone        String?
+  adresse          String
+  codePostal       String?       @map("code_postal")
+  ville            String?
+  matriculeFiscal  String?       @map("matricule_fiscal")
+  brancheContact   String?       @map("branche_contact")
+  produitsInterets String?       @map("produits_interets")
+  dateCreation     DateTime      @default(now()) @map("date_creation")
+  dateModification DateTime?     @map("date_modification")
+  user             User          @relation(fields: [id], references: [id], onDelete: Cascade)
+  devis            Devis[]
+  reclamations     Reclamation[]
+
+  @@map("clients")
+}
+
+model Admin {
+  id       Int     @id @default(autoincrement())
+  userId   Int     @unique @map("user_id")
+  username String  @unique
+  nom      String?
+  prenom   String?
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("admins")
+}
+
+model Devis {
+  id             Int         @id @default(autoincrement())
+  clientId       Int         @map("client_id")
+  brancheContact String?     @map("branche_contact")
+  produitDesire  String?     @map("produit_desire")
+  description    String      @db.Text
+  statut         StatutDevis @default(EN_ATTENTE)
+  dateDemande    DateTime    @default(now()) @map("date_demande")
+  dateTraitement DateTime?   @map("date_traitement")
+  motifRefus     String?     @map("motif_refus")
+  documentUrl    String?     @map("document_url")
+  client         Client      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId], map: "devis_client_id_fkey")
+  @@map("devis")
+}
+
+model Reclamation {
+  id           Int               @id @default(autoincrement())
+  clientId     Int               @map("client_id")
+  destinataire String?
+  sujet        String
+  description  String            @db.Text
+  statut       StatutReclamation @default(EN_ATTENTE)
+  date         DateTime          @default(now())
+  reponseAdmin String?           @map("reponse_admin")
+  client       Client            @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId], map: "reclamations_client_id_fkey")
+  @@map("reclamations")
+}
+
+enum Role {
+  CLIENT
+  ADMIN
+}
+
+enum ClientType {
+  INDIVIDUEL
+  SOCIETE
+}
+
+enum StatutDevis {
+  EN_ATTENTE
+  VALIDE
+  REFUS
+  EN_COURS
+}
+
+enum StatutReclamation {
+  EN_ATTENTE
+  EN_COURS
+  TRAITE
+}
