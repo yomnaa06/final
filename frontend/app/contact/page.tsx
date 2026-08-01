@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-// app/contact/page.tsx
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 "use client";
 
 import { useState } from 'react';
@@ -9,11 +5,7 @@ import { Navbar } from '@/components/site/navbar';
 import { Footer } from '@/components/site/footer';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
-<<<<<<< HEAD
 import { contactApi } from '@/lib/api'; 
-=======
-import { contactApi } from '@/lib/api'; // ← Use contactApi
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -60,11 +52,7 @@ export default function ContactPage() {
       <main className="pt-[70px] min-h-screen bg-gray-50">
         <div className="container mx-auto max-w-7xl px-5 py-16 md:py-24">
 
-<<<<<<< HEAD
           {/* header */}
-=======
-          {/* Header */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -83,11 +71,7 @@ export default function ContactPage() {
           </motion.div>
 
           <div className="grid lg:grid-cols-3 gap-8">
-<<<<<<< HEAD
             {/* info contact */}
-=======
-            {/* Contact Info */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -143,11 +127,7 @@ export default function ContactPage() {
               </div>
             </motion.div>
 
-<<<<<<< HEAD
             {/* forme de contact */}
-=======
-            {/* Contact Form */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}

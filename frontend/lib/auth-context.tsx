@@ -21,11 +21,7 @@ type AuthState = {
 
 const AuthContext = createContext<AuthState | null>(null)
 
-<<<<<<< HEAD
 // decode jwt token sans librairie , base64url_decoder
-=======
-/** Decode JWT payload without a library — just base64url-decode the middle part */
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 function getTokenExpiry(token: string): number | null {
   try {
     const payload = token.split('.')[1]
@@ -39,11 +35,7 @@ function getTokenExpiry(token: string): number | null {
 function isTokenExpired(token: string): boolean {
   const exp = getTokenExpiry(token)
   if (exp === null) return true
-<<<<<<< HEAD
   // 10-second buffer
-=======
-  // Give a 10-second buffer
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
   return Date.now() / 1000 >= exp - 10
 }
 
@@ -52,11 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-<<<<<<< HEAD
   // verification que token expired
-=======
-  /** Rehydrate from localStorage on mount — verify token isn't expired */
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
   useEffect(() => {
     try {
       const stored = localStorage.getItem('token')
@@ -64,11 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (stored && storedUser) {
         if (isTokenExpired(stored)) {
-<<<<<<< HEAD
           // token is expire , clearing tt, letting user login again
-=======
-          // Token is expired — clear everything, let user log in again
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
           localStorage.removeItem('token')
           localStorage.removeItem('user')
         } else {

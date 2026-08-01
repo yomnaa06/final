@@ -25,6 +25,10 @@ app.use(express.json());
 
 // Serve uploads folder statically
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+// Fichier introuvable dans /uploads → réponse 404 propre
+app.use('/uploads', (_req, res) => {
+  res.status(404).json({ error: 'Fichier introuvable' });
+});
 
 // Mount API routes
 app.use('/api/auth', authRoutes);

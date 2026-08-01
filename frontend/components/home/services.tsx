@@ -1,62 +1,10 @@
-<<<<<<< HEAD
-=======
-// components/home/services.tsx
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 "use client";
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
-<<<<<<< HEAD
 import { collections } from '@/data/products';
-=======
-
-const categories = [
-  {
-    slug: 'filtres',
-    label: 'Filtration',
-    desc: 'Filtres à huile, air, habitacle et carburant sélectionnés pour un usage professionnel intensif.',
-    image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80',
-  },
-  {
-    slug: 'fluides',
-    label: 'Fluides',
-    desc: 'Ad-Blue, eau batterie, huile de frein, liquide nettoyant, liquide refroidissement.',
-    image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=800&q=80',
-  },
-  {
-    slug: 'lubrifiants',
-    label: 'Lubrifiants',
-    desc: 'Huiles moteur, transmission et graisses techniques de qualité constructeur.',
-    image: 'https://images.unsplash.com/photo-1615887476721-8447bad6df53?w=800&q=80',
-  },
-  {
-    slug: 'freinage',
-    label: 'Freinage',
-    desc: 'Plaquettes, disques, mâchoires et liquides — la sécurité au cœur de chaque référence.',
-    image: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&q=80',
-  },
-  {
-    slug: 'suspensions',
-    label: 'Suspensions',
-    desc: 'Amortisseurs, ressorts et pièces de train roulant conçus pour durer.',
-    image: 'https://images.unsplash.com/photo-1632823469850-2f77dd9c7f93?w=800&q=80',
-  },
-  {
-    slug: 'refroidissement',
-    label: 'Refroidissement',
-    desc: 'Radiateurs, thermostats, pompes à eau et liquides pour préserver le moteur.',
-    image: 'https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=800&q=80',
-  },
-  {
-    slug: 'carrosserie',
-    label: 'Carrosserie',
-    desc: 'Optiques, rétroviseurs, boucliers et éléments de carrosserie d\'origine.',
-    image: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80',
-  },
-];
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 
 export function Services() {
   const [visibleCards, setVisibleCards] = useState<number[]>([]);
@@ -86,7 +34,6 @@ export function Services() {
     return () => observer.disconnect();
   }, []);
 
-<<<<<<< HEAD
   // recuperation des cartes m liste produits
   const categories = collections.map((col) => ({
     slug: col.slug,
@@ -96,9 +43,6 @@ export function Services() {
   }));
 
   // carte devis
-=======
-  // CTA Card - 8th card with "?"
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
   const ctaCard = {
     slug: 'devis',
     label: 'Besoin spécifique ?',
@@ -112,11 +56,7 @@ export function Services() {
     <section ref={sectionRef} className="py-20 md:py-28 bg-gray-50">
       <div className="container mx-auto max-w-7xl px-5 md:px-8">
 
-<<<<<<< HEAD
         {/*  header */}
-=======
-        {/* ===== HEADER ===== */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
         <div className="text-center mb-16">
           <p className="text-xs font-semibold tracking-[0.3em] uppercase text-gray-400">
             EXPLORER
@@ -136,11 +76,7 @@ export function Services() {
           </Link>
         </div>
 
-<<<<<<< HEAD
         {/* grid layout */}
-=======
-        {/* ===== GRID - 4 columns with BIGGER cards ===== */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
           {cards.map((category, index) => {
             const isVisible = visibleCards.includes(index);
@@ -159,28 +95,16 @@ export function Services() {
                 className="h-full"
               >
                 {isCta ? (
-<<<<<<< HEAD
                   // carte cta
-=======
-                  // ===== CTA CARD - 8th card with "?" =====
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                   <Link
                     href="/devis"
                     className="group block overflow-hidden rounded-2xl bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 h-full"
                   >
                     <div className="relative aspect-[3/4] overflow-hidden p-8 flex flex-col justify-between h-full">
-<<<<<<< HEAD
-=======
-                      {/* Decorative elements */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                       <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-red-500/20 to-transparent rounded-full -mr-16 -mt-16" />
                       <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-500/10 to-transparent rounded-full -ml-12 -mb-12" />
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/5 rounded-full blur-2xl" />
                       
-<<<<<<< HEAD
-=======
-                      {/* Red pulse dot */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                       <div className="absolute top-6 right-6">
                         <div className="relative">
                           <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
@@ -188,10 +112,6 @@ export function Services() {
                         </div>
                       </div>
 
-<<<<<<< HEAD
-=======
-                      {/* Top accent bars */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                       <div className="absolute top-0 left-0 right-0 h-1 flex">
                         <div className="flex-1 bg-blue-400" />
                         <div className="flex-1 bg-red-500" />
@@ -221,11 +141,7 @@ export function Services() {
                     </div>
                   </Link>
                 ) : (
-<<<<<<< HEAD
                   // category card
-=======
-                  // ===== CATEGORY CARD - Bigger and elegant =====
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                   <Link
                     href={`/products?collection=${category.slug}`}
                     className="group block overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 h-full"
@@ -235,7 +151,6 @@ export function Services() {
                         src={category.image}
                         alt={category.label}
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-<<<<<<< HEAD
                         onError={(e) => {
                           // Fallback taswira if it doesnt load
                           (e.target as HTMLImageElement).src = '/images/placeholder-category.jpg';
@@ -256,33 +171,6 @@ export function Services() {
                         </p>
                         <div className="mt-4 flex items-center gap-1.5 text-sm font-medium text-white/60 opacity-0 group-hover:opacity-100 group-hover:gap-2 transition-all duration-300">
                           <span>EXPLORER</span>
-=======
-                      />
-                      
-                      {/* Dark gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                      
-                      {/* Content */}
-                      <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                        {/* COLLECTION label */}
-                        <p className="text-[10px] font-semibold tracking-[0.25em] uppercase text-white/50 mb-1.5">
-                          Collection
-                        </p>
-                        
-                        {/* Title - Bigger */}
-                        <h3 className="text-2xl md:text-3xl font-serif font-bold leading-tight">
-                          {category.label}
-                        </h3>
-                        
-                        {/* Description */}
-                        <p className="mt-2 text-sm text-white/70 leading-relaxed line-clamp-2">
-                          {category.desc}
-                        </p>
-                        
-                        {/* EXPLORE link - appears on hover */}
-                        <div className="mt-4 flex items-center gap-1.5 text-sm font-medium text-white/60 opacity-0 group-hover:opacity-100 group-hover:gap-2 transition-all duration-300">
-                          <span>EXPLORE</span>
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                           <ArrowUpRight className="size-4" />
                         </div>
                       </div>
@@ -294,11 +182,7 @@ export function Services() {
           })}
         </div>
 
-<<<<<<< HEAD
         {/*  boutton loutani */}
-=======
-        {/* ===== BOTTOM BUTTON - "Explorer le catalogue" ===== */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
         <div className="mt-14 text-center">
           <Link
             href="/products"

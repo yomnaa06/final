@@ -1,10 +1,6 @@
 'use client'
 
-<<<<<<< HEAD
 import React, { useEffect, useState, useCallback, useRef } from 'react'
-=======
-import { useEffect, useState, useCallback, useRef } from 'react'
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 import {
   CheckCircle2, XCircle, Loader2, Search,
   Paperclip, X, FileText, ChevronDown, ChevronUp,
@@ -91,11 +87,7 @@ export default function AdminDevisPage() {
   return (
     <div className="space-y-6">
 
-<<<<<<< HEAD
       {/* toast */}
-=======
-      {/* Toast */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       {toast && (
         <div className={`fixed right-6 top-6 z-50 flex items-center gap-2.5 rounded-2xl px-5 py-3 text-sm font-medium shadow-lg ${
           toast.ok ? 'bg-foreground text-background' : 'bg-destructive text-white'
@@ -111,11 +103,7 @@ export default function AdminDevisPage() {
         <p className="mt-1 text-sm text-muted-foreground">Traitez les demandes de devis clients</p>
       </div>
 
-<<<<<<< HEAD
       {/* kpi */}
-=======
-      {/* KPI strip */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {[
           { label: 'Total',      value: counts.total,     key: 'ALL',        accent: 'text-foreground',    stripe: 'bg-foreground'       },
@@ -141,11 +129,7 @@ export default function AdminDevisPage() {
         ))}
       </div>
 
-<<<<<<< HEAD
       {/* search */}
-=======
-      {/* Search */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <div className="relative">
         <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <input
@@ -156,11 +140,7 @@ export default function AdminDevisPage() {
         />
       </div>
 
-<<<<<<< HEAD
       {/* table */}
-=======
-      {/* Table */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       {loading ? (
         <div className="flex h-48 items-center justify-center">
           <Loader2 className="size-6 animate-spin text-muted-foreground" />
@@ -185,14 +165,8 @@ export default function AdminDevisPage() {
             </thead>
             <tbody className="divide-y divide-border">
               {filtered.map((d) => (
-<<<<<<< HEAD
                 <React.Fragment key={d.id}>
                   <tr
-=======
-                <>
-                  <tr
-                    key={d.id}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                     onClick={() => setExpanded(expanded === d.id ? null : d.id)}
                     className="cursor-pointer transition-colors hover:bg-muted/30"
                   >
@@ -240,11 +214,7 @@ export default function AdminDevisPage() {
                   </tr>
 
                   {expanded === d.id && (
-<<<<<<< HEAD
                     <tr className="bg-muted/20">
-=======
-                    <tr key={`${d.id}-exp`} className="bg-muted/20">
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                       <td colSpan={6} className="px-5 py-5">
                         <div className="grid gap-4 sm:grid-cols-2">
                           <div>
@@ -273,22 +243,14 @@ export default function AdminDevisPage() {
                       </td>
                     </tr>
                   )}
-<<<<<<< HEAD
                 </React.Fragment>
-=======
-                </>
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
               ))}
             </tbody>
           </table>
         </div>
       )}
 
-<<<<<<< HEAD
       {/* valider */}
-=======
-      {/* Validate modal */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       {modal?.type === 'validate' && (
         <ModalShell
           title="Valider le devis"
@@ -344,11 +306,7 @@ export default function AdminDevisPage() {
         </ModalShell>
       )}
 
-<<<<<<< HEAD
       {/* refuser */}
-=======
-      {/* Refuse modal */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       {modal?.type === 'refuse' && (
         <ModalShell
           title="Refuser le devis"
@@ -413,8 +371,4 @@ function ModalFooter({ onCancel, onConfirm, confirmLabel, disabled, loading, con
       </button>
     </div>
   )
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b

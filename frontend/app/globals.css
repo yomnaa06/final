@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
-@import 'shadcn/tailwind.css';
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
+
 
 @custom-variant dark (&:is(.dark *));
 
@@ -43,11 +45,7 @@
 :root {
   color-scheme: light;
 
-<<<<<<< HEAD
   /* white ground */
-=======
-  /* Pure white ground — Al Rajhi style */
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
   --background:             #ffffff;
   --foreground:             #0d0d0d;
   --card:                   #ffffff;
@@ -55,25 +53,16 @@
   --popover:                #ffffff;
   --popover-foreground:     #0d0d0d;
 
-<<<<<<< HEAD
   /* text/borders */
   --primary:                #1a1a1a;
   --primary-foreground:     #ffffff;
 
   /* light grey bckgds */
-=======
-  /* Primary = deep charcoal, used only for text/borders not backgrounds */
-  --primary:                #1a1a1a;
-  --primary-foreground:     #ffffff;
-
-  /* Light grey section backgrounds */
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
   --secondary:              #f7f7f7;
   --secondary-foreground:   #1a1a1a;
   --muted:                  #f0f0f0;
   --muted-foreground:       #717171;
 
-<<<<<<< HEAD
   /* accent bleue mtaa logo */
   --accent:                 #1b3d6f;
   --accent-foreground:      #ffffff;
@@ -88,22 +77,6 @@
   --brand-red-light:        #fdf3f2;
 
   /* dark pannel */
-=======
-  /* Accent = brand blue (used sparingly) */
-  --accent:                 #1b3d6f;
-  --accent-foreground:      #ffffff;
-
-  /* ── Brand colours ── */
-  /* Blue: deep professional navy */
-  --brand-blue:             #1b3d6f;
-  --brand-blue-light:       #edf2fb;
-
-  /* Red: the hero colour — confident, not alarming */
-  --brand-red:              #c0160c;
-  --brand-red-light:        #fdf3f2;
-
-  /* Dark panel for hero / footer */
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
   --steel:                  #0f0f0f;
   --steel-foreground:       #f0f0f0;
 
@@ -134,11 +107,7 @@
 }
 
 @layer utilities {
-<<<<<<< HEAD
   /* Eyebrow  */
-=======
-  /* Eyebrow — red by default (Al Rajhi uses red accents for section labels) */
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
   .label-eyebrow {
     @apply font-mono text-[10.5px] font-semibold uppercase tracking-[0.24em] text-brand-red;
   }
@@ -149,11 +118,7 @@
 
   .tracking-display { letter-spacing: -0.03em; }
 
-<<<<<<< HEAD
   /* thin red rule */
-=======
-  /* Thin red rule — decorative */
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
   .red-rule {
     display: inline-block;
     width: 2.5rem;
@@ -161,11 +126,7 @@
     background: var(--brand-red);
     border-radius: 99px;
   }
-<<<<<<< HEAD
 /* fading effect */
-=======
-/* Add this to your global CSS */
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
  @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -182,11 +143,7 @@
 }
 
 
-<<<<<<< HEAD
 /* loader animation */
-=======
-/* app/globals.css */
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 
 .loader {
   position: relative;
@@ -286,11 +243,7 @@
   z-index: 1;
   border-radius: 50ch;
   border: none;
-<<<<<<< HEAD
   font-size: 1.05em;
-=======
-  font-size: 0.9em;
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 }
 
 .loader-letter:nth-child(1) { animation-delay: 0s; }
@@ -321,9 +274,7 @@
     opacity: 0.7;
     transform: translateY(0);
   }
-<<<<<<< HEAD
 }
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 
 .font-serif {
   font-family: 'Cormorant Garamond', Georgia, serif;
@@ -366,6 +317,3 @@
 
 
 }
-=======
-}}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b

@@ -1,10 +1,6 @@
 'use client'
 
-<<<<<<< HEAD
 import React, { useEffect, useState, useCallback } from 'react'
-=======
-import { useEffect, useState, useCallback } from 'react'
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 import {
   Loader2, Search, Send, CheckCircle2,
   XCircle, X, MessageSquare, ChevronDown, ChevronUp,
@@ -89,11 +85,7 @@ export default function AdminReclamationsPage() {
         <p className="mt-1 text-sm text-muted-foreground">Répondez aux réclamations de vos clients</p>
       </div>
 
-<<<<<<< HEAD
       {/*  kpi */}
-=======
-      {/* KPI strip */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <div className="grid grid-cols-3 gap-2">
         {[
           { label: 'Total',      value: counts.total,   key: 'ALL',        accent: 'text-foreground',  stripe: 'bg-foreground'  },
@@ -118,11 +110,7 @@ export default function AdminReclamationsPage() {
         ))}
       </div>
 
-<<<<<<< HEAD
       {/* search */}
-=======
-      {/* Search */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <div className="relative">
         <Search className="absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <input
@@ -155,14 +143,8 @@ export default function AdminReclamationsPage() {
             </thead>
             <tbody className="divide-y divide-border">
               {filtered.map((r) => (
-<<<<<<< HEAD
                 <React.Fragment key={r.id}>
                   <tr
-=======
-                <>
-                  <tr
-                    key={r.id}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                     onClick={() => setExpanded(expanded === r.id ? null : r.id)}
                     className="cursor-pointer transition-colors hover:bg-muted/30"
                   >
@@ -204,11 +186,7 @@ export default function AdminReclamationsPage() {
                   </tr>
 
                   {expanded === r.id && (
-<<<<<<< HEAD
                     <tr className="bg-muted/20">
-=======
-                    <tr key={`${r.id}-exp`} className="bg-muted/20">
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                       <td colSpan={6} className="px-5 py-5">
                         <div className="grid gap-4 sm:grid-cols-2">
                           <div>
@@ -225,22 +203,14 @@ export default function AdminReclamationsPage() {
                       </td>
                     </tr>
                   )}
-<<<<<<< HEAD
                 </React.Fragment>
-=======
-                </>
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
               ))}
             </tbody>
           </table>
         </div>
       )}
 
-<<<<<<< HEAD
       {/* repondre */}
-=======
-      {/* Reply modal */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       {replyId !== null && replyRec && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
           <div className="w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-background shadow-2xl">
@@ -293,8 +263,4 @@ export default function AdminReclamationsPage() {
       )}
     </div>
   )
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b

@@ -45,11 +45,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
 
-<<<<<<< HEAD
       {/* header */}
-=======
-      {/* Header */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <div className="flex items-end justify-between gap-4">
         <div>
           <p className="label-eyebrow">Vue d&apos;ensemble</p>
@@ -64,11 +60,7 @@ export default function DashboardPage() {
         </button>
       </div>
 
-<<<<<<< HEAD
       {/* alerte banner */}
-=======
-      {/* Alert banner */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       {n.totalPending > 0 && (
         <div className="flex items-center gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">
           <Clock className="size-4 shrink-0 text-amber-600" />
@@ -79,11 +71,7 @@ export default function DashboardPage() {
         </div>
       )}
 
-<<<<<<< HEAD
       {/* cartes kpi */}
-=======
-      {/* KPI cards — left-accent stripe style */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
         {[
           {
@@ -108,11 +96,7 @@ export default function DashboardPage() {
         ].map((k) => {
           const inner = (
             <div className="group flex h-full overflow-hidden rounded-lg border border-border bg-background transition-colors hover:bg-secondary/60">
-<<<<<<< HEAD
               {/* accent stripe */}
-=======
-              {/* Accent stripe */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
               <div className={`w-1 shrink-0 ${k.stripe}`} />
               <div className="flex-1 px-5 py-5">
                 <p className="text-xs font-medium text-muted-foreground">{k.label}</p>
@@ -131,11 +115,7 @@ export default function DashboardPage() {
         })}
       </div>
 
-<<<<<<< HEAD
       {/* performance */}
-=======
-      {/* Performance */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <div className="grid gap-3 sm:grid-cols-2">
         {[
           {
@@ -163,11 +143,7 @@ export default function DashboardPage() {
         ))}
       </div>
 
-<<<<<<< HEAD
       {/* listes pending  */}
-=======
-      {/* Pending lists */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <div className="grid gap-4 lg:grid-cols-2">
         <PendingCard title="Devis en attente" count={n.pendingDevis.count} href="/dashboard/devis" cta="Traiter les devis" empty={n.pendingDevis.items.length === 0}>
           {n.pendingDevis.items.map((d) => (

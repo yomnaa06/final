@@ -26,20 +26,12 @@ export function AuthShell({
       {/* Visual side */}
       <div className="relative hidden overflow-hidden bg-steel lg:block lg:w-[46%]">
         <Image
-<<<<<<< HEAD
           src="/images/auth_parts.png"
-=======
-          src="/images/auth-parts.png"
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
           alt="Pièces automobiles premium"
           fill priority sizes="46vw"
           className="object-cover opacity-80"
         />
-<<<<<<< HEAD
         {/* degradation layered : deep blue mta logo  bottom, dark at top */}
-=======
-        {/* Layered gradients — deep brand-blue tint at bottom, dark at top */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
         <div className="absolute inset-0 bg-gradient-to-br from-[#0c1e35]/80 via-steel/50 to-steel/90" />
         <div className="relative z-10 flex h-full flex-col justify-between p-10 text-steel-foreground">
           <Link href="/" className="inline-block">
@@ -57,11 +49,7 @@ export function AuthShell({
         </div>
       </div>
 
-<<<<<<< HEAD
       {/* Form  */}
-=======
-      {/* Form side */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <div className="flex flex-1 flex-col px-5 py-8 sm:px-10 lg:px-16">
         <div className="flex items-center justify-between">
           <Link href="/" className="text-foreground lg:hidden">

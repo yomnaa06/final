@@ -55,15 +55,9 @@ export default function AdminLoginPage() {
 
   return (
     <div className="flex min-h-svh flex-col lg:flex-row">
-<<<<<<< HEAD
       {/* left panel */}
       <div className="relative hidden overflow-hidden bg-steel lg:block lg:w-[44%]">
         <Image src="/images/admin_login.png" alt="Entrepôt Seghaier" fill priority sizes="44vw" className="object-cover opacity-70" />
-=======
-      {/* Left panel */}
-      <div className="relative hidden overflow-hidden bg-steel lg:block lg:w-[44%]">
-        <Image src="/images/warehouse.png" alt="Entrepôt Seghaier" fill priority sizes="44vw" className="object-cover opacity-70" />
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
         <div className="absolute inset-0 bg-gradient-to-t from-steel via-steel/60 to-steel/20" />
         <div className="relative z-10 flex h-full flex-col justify-between p-10">
           <Link href="/" className="inline-flex items-center gap-3">
@@ -79,11 +73,7 @@ export default function AdminLoginPage() {
         </div>
       </div>
 
-<<<<<<< HEAD
       {/* right panel */}
-=======
-      {/* Right panel */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <div className="flex flex-1 flex-col bg-background px-6 py-8 sm:px-12 lg:px-16">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 lg:hidden">

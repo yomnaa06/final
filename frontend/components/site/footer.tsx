@@ -11,11 +11,7 @@ export function Footer() {
     >
       <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
-<<<<<<< HEAD
           {/* marques */}
-=======
-          {/* Brand */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
           <div className="max-w-xs">
             <Link href="/" className="text-steel-foreground">
               <Logo />
@@ -27,11 +23,7 @@ export function Footer() {
             </p>
           </div>
 
-<<<<<<< HEAD
           {/* navigation */}
-=======
-          {/* Navigation */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
           <div>
             <h3 className="font-mono text-xs uppercase tracking-[0.22em] text-steel-foreground/40">
               Navigation
@@ -58,11 +50,7 @@ export function Footer() {
             </ul>
           </div>
 
-<<<<<<< HEAD
           {/* branches */}
-=======
-          {/* Branches */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
           <div>
             <h3 className="font-mono text-xs uppercase tracking-[0.22em] text-steel-foreground/40">
               Nos branches
@@ -79,11 +67,7 @@ export function Footer() {
             </ul>
           </div>
 
-<<<<<<< HEAD
           {/* contact */}
-=======
-          {/* Contact */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
           <div>
             <h3 className="font-mono text-xs uppercase tracking-[0.22em] text-steel-foreground/40">
               Contact

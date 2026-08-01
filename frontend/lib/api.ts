@@ -1,11 +1,8 @@
-<<<<<<< HEAD
-=======
 // lib/api.ts
 /**
  * Centralized API client — all requests go through here.
  * The base URL comes from NEXT_PUBLIC_API_URL (default: http://localhost:3000).
  */
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 
  const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
 
@@ -43,11 +40,7 @@
      throw new Error('Impossible de contacter le serveur. Vérifiez que le backend est démarré sur le port 3000.')
    }
  
-<<<<<<< HEAD
    // parsing json
-=======
-   // Parse JSON safely — some endpoints return plain text on error
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
    let json: Record<string, unknown>
    try {
      json = await res.json()
@@ -56,11 +49,7 @@
    }
  
    if (!res.ok) {
-<<<<<<< HEAD
      // use backend message so user yefhem what went wrong
-=======
-     // Use the exact backend message so the user sees what really went wrong
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
      const msg =
        (json.message as string) ||
        (json.error as string) ||
@@ -71,11 +60,7 @@
    return json as T
  }
  
-<<<<<<< HEAD
  // authentification
-=======
- // ─── Auth ────────────────────────────────────────────────────────────────────
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
  
  export type LoginPayload = {
    email: string
@@ -123,11 +108,7 @@
    id: number
    email: string
    role: 'CLIENT' | 'ADMIN'
-<<<<<<< HEAD
    // client
-=======
-   // client fields
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
    clientType?: 'INDIVIDUEL' | 'SOCIETE'
    nom?: string
    prenom?: string
@@ -138,11 +119,7 @@
    matriculeFiscal?: string
    brancheContact?: string
    produitsInterets?: string
-<<<<<<< HEAD
    // admin 
-=======
-   // admin fields
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
    username?: string
    dateCreation?: string
  }
@@ -178,11 +155,7 @@
      }),
  }
  
-<<<<<<< HEAD
  // devis
-=======
- // ─── Devis ───────────────────────────────────────────────────────────────────
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
  
  export type Devis = {
    id: number
@@ -211,11 +184,7 @@
    listAll: () =>
      request<{ success: boolean; data: Devis[] }>('/api/devis/admin'),
  
-<<<<<<< HEAD
    // validation de pdf  w pdf envoie
-=======
-   /** Validate a devis with an optional PDF attachment — uses multipart/form-data */
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
    validateWithFile: async (id: number, file: File, description?: string): Promise<{ success: boolean; data: Devis }> => {
      const token = getToken()
      const formData = new FormData()
@@ -246,11 +215,7 @@
      }),
  }
  
-<<<<<<< HEAD
  // reclamation
-=======
- // ─── Reclamations ────────────────────────────────────────────────────────────
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
  
  export type Reclamation = {
    id: number
@@ -288,7 +253,7 @@
      }),
  }
  
- // ─── Admin ───────────────────────────────────────────────────────────────────
+ // admin
  
  export type DashboardStats = {
    totalClients: number
@@ -344,11 +309,7 @@
      request<{ success: boolean; data: { stats: DashboardStats } }>('/api/admin/stats'),
  }
  
-<<<<<<< HEAD
  // contact
-=======
- // ─── NEW: Contact ────────────────────────────────────────────────────────────
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
  
  export type ContactPayload = {
    name: string
@@ -362,10 +323,6 @@
      request<{ success: boolean; message: string }>('/api/contact', {
        method: 'POST',
        body: data,
-<<<<<<< HEAD
        auth: false, // zeyed authentification
-=======
-       auth: false, // No auth needed for contact form
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
      }),
  }

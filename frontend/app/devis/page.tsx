@@ -29,8 +29,4 @@ export default function DevisPage() {
       <Footer />
     </>
   )
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b

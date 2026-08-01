@@ -41,29 +41,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <div className="flex h-screen overflow-hidden bg-[#f3f2f0]">
 
-<<<<<<< HEAD
       {/* mobile overlay */}
-=======
-      {/* Mobile overlay */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       {open && (
         <div className="fixed inset-0 z-30 bg-foreground/25 backdrop-blur-[2px] md:hidden" onClick={() => setOpen(false)} />
       )}
 
-<<<<<<< HEAD
       {/* sidebar */}
-=======
-      {/* ── Sidebar ───────────────────────────────────────── */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <aside className={cn(
         'fixed inset-y-0 left-0 z-40 flex w-[220px] flex-col border-r border-border bg-background transition-transform duration-200 md:relative md:translate-x-0',
         open ? 'translate-x-0 shadow-xl' : '-translate-x-full',
       )}>
-<<<<<<< HEAD
         {/* logo */}
-=======
-        {/* Logo row */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
         <div className="flex h-[60px] items-center gap-3 border-b border-border px-5">
           <Link href="/" className="flex items-center gap-2.5 text-foreground">
             <Logo />
@@ -73,11 +61,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </span>
         </div>
 
-<<<<<<< HEAD
         {/* navigation */}
-=======
-        {/* Navigation */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
         <nav className="flex-1 overflow-y-auto px-2.5 py-4">
           <p className="mb-1.5 px-2.5 font-mono text-[9px] uppercase tracking-[0.18em] text-muted-foreground/50">
             Menu
@@ -106,11 +90,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         </nav>
 
-<<<<<<< HEAD
         {/* user footer */}
-=======
-        {/* User footer */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
         <div className="border-t border-border px-2.5 py-3">
           <div className="mb-1.5 flex items-center gap-2.5 rounded-md bg-secondary px-3 py-2.5">
             <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand-blue text-[11px] font-bold text-white">
@@ -132,15 +112,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
       </aside>
 
-<<<<<<< HEAD
       {/* main */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* mobile header */}
-=======
-      {/* ── Main ──────────────────────────────────────────── */}
-      <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Mobile header */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
         <header className="flex h-[60px] items-center gap-3 border-b border-border bg-background px-4 md:hidden">
           <button
             type="button"

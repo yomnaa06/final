@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-// components/site/navbar.tsx
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 "use client";
 
 import Link from 'next/link'
@@ -13,11 +9,7 @@ import { cn } from '@/lib/utils'
 import { Logo } from './logo'
 import { useAuth } from '@/lib/auth-context'
 
-<<<<<<< HEAD
 // categories ml liste
-=======
-// ===== CATEGORIES FOR DROPDOWN =====
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 const categories = [
   { slug: 'filtres', label: 'Filtration' },
   { slug: 'fluides', label: 'Fluides' },
@@ -28,11 +20,7 @@ const categories = [
   { slug: 'carrosserie', label: 'Carrosserie' },
 ]
 
-<<<<<<< HEAD
 // navigation des lienss
-=======
-// ===== NAVIGATION LINKS =====
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 const NAV_LINKS = [
   { href: '/', label: 'Accueil' },
   { href: '/products', label: 'Catalogue' },
@@ -80,24 +68,14 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
     )}>
       <nav className="mx-auto flex h-[70px] max-w-7xl items-center justify-between px-5 md:px-8">
 
-<<<<<<< HEAD
         {/* logo */}
-=======
-        {/* Logo */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
         <Link href="/" aria-label="Seghaier Auto Parts">
           <Logo />
         </Link>
 
-<<<<<<< HEAD
         {/* nav links de desktop */}
         <div className="hidden items-center gap-7 md:flex">
           {/* acceuil */}
-=======
-        {/* Desktop nav links */}
-        <div className="hidden items-center gap-7 md:flex">
-          {/* Accueil */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
           <Link href="/"
             className={cn(
               'group relative text-sm font-medium transition-colors duration-200',
@@ -110,11 +88,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
             )} />
           </Link>
 
-<<<<<<< HEAD
           {/* familles dropdown */}
-=======
-          {/* Familles - Dropdown */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
           <div
             className="relative"
             onMouseEnter={() => setFamillesOpen(true)}
@@ -137,11 +111,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
               )} />
             </button>
 
-<<<<<<< HEAD
             {/* menu drpdwn */}
-=======
-            {/* Dropdown Menu */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
             <AnimatePresence>
               {famillesOpen && (
                 <motion.div
@@ -176,11 +146,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
             </AnimatePresence>
           </div>
 
-<<<<<<< HEAD
           {/* reste des liens de navgs */}
-=======
-          {/* Rest of NAV_LINKS */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
           {NAV_LINKS.slice(1).map((l) => (
             <Link key={l.href} href={l.href}
               className={cn(
@@ -196,11 +162,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
           ))}
         </div>
 
-<<<<<<< HEAD
         {/* navig desktop */}
-=======
-        {/* Desktop auth - keep your existing code */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
         <div className="hidden items-center gap-2.5 md:flex">
           {!isLoading && user ? (
             <>
@@ -292,11 +254,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
           ) : null}
         </div>
 
-<<<<<<< HEAD
         {/* mobile toggle */}
-=======
-        {/* Mobile toggle */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
         <button type="button" onClick={() => setOpen(v => !v)} aria-label="Menu"
           className={cn('md:hidden inline-flex size-9 items-center justify-center rounded-lg transition-colors',
             light ? 'text-white' : 'text-foreground hover:bg-brand-blue-light')}>
@@ -304,11 +262,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
         </button>
       </nav>
 
-<<<<<<< HEAD
       {/* menu mobile */}
-=======
-      {/* Mobile menu */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <AnimatePresence>
         {open && (
           <motion.div
@@ -325,11 +279,7 @@ export function Navbar({ overlay = false }: { overlay?: boolean }) {
                   {l.label}
                 </Link>
               ))}
-<<<<<<< HEAD
               {/* fmilles drpdwn mobile */}
-=======
-              {/* Mobile Familles dropdown */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
               <div className="mt-1 border-t border-border pt-2">
                 <p className="px-3 py-1.5 text-xs font-semibold tracking-[0.15em] uppercase text-muted-foreground">
                   Familles

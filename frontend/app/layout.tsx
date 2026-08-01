@@ -31,22 +31,15 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-<<<<<<< HEAD
     <html 
       lang="fr" 
       className={`${manrope.variable} ${geistMono.variable} bg-background`}
       data-scroll-behavior="smooth"
+      suppressHydrationWarning
     >
-=======
-    <html lang="fr" className={`${manrope.variable} ${geistMono.variable} bg-background`}>
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased" suppressHydrationWarning>
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   )
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b

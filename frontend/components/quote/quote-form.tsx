@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 "use client";
 
 import { useState } from 'react';
@@ -8,17 +7,6 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { AnimatePresence, motion } from 'motion/react';
-=======
-'use client'
-
-import { useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { AnimatePresence, motion } from 'motion/react'
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 import {
   ArrowLeft,
   ArrowRight,
@@ -28,7 +16,6 @@ import {
   Package,
   LogIn,
   AlertCircle,
-<<<<<<< HEAD
   ShoppingBag,
   Trash2,
   Plus,
@@ -44,22 +31,10 @@ import { useDevis } from '@/hooks/useDevis';
 import { collections } from '@/data/products';
 
 // ids front to back valeurs
-=======
-} from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { PRODUCT_CATEGORIES, BRANCHES } from '@/lib/site'
-import { Stepper } from './stepper'
-import { FloatingTextarea } from '@/components/ui/floating-field'
-import { devisApi } from '@/lib/api'
-import { useAuth } from '@/lib/auth-context'
-
-// Map frontend branch ids to backend values
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 const BRANCH_BACKEND: Record<string, string> = {
   'pieces-auto': 'E.A.S.C. Pièces Auto',
   gros: 'E.A.S.C. Gros',
   aps: 'APS',
-<<<<<<< HEAD
 };
 
 const schema = z.object({
@@ -79,33 +54,6 @@ export function QuoteForm() {
   const { user } = useAuth();
   const { items, removeItem, updateQuantity, totalItems, clearDevis } = useDevis();
   const router = useRouter();
-=======
-}
-
-const schema = z.object({
-  categories: z.array(z.string()).min(1, 'Sélectionnez au moins une gamme'),
-  details: z.string().min(10, 'Précisez votre demande (10 caractères min.)'),
-  branch: z.string().min(1, 'Choisissez un destinataire'),
-})
-
-type FormValues = z.infer<typeof schema>
-
-const STEPS = ['Produits', 'Destinataire', 'Confirmation']
-const ease = [0.22, 1, 0.36, 1] as const
-
-const fieldsPerStep: (keyof FormValues)[][] = [
-  ['categories', 'details'],
-  ['branch'],
-  [],
-]
-
-export function QuoteForm() {
-  const [step, setStep] = useState(0)
-  const [done, setDone] = useState(false)
-  const [serverError, setServerError] = useState<string | null>(null)
-  const { user } = useAuth()
-  const router = useRouter()
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 
   const {
     register,
@@ -117,7 +65,6 @@ export function QuoteForm() {
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     mode: 'onTouched',
-<<<<<<< HEAD
     defaultValues: { details: '', branch: '' },
   });
 
@@ -181,39 +128,6 @@ export function QuoteForm() {
   }
 
   // mch authenticated, show cta
-=======
-    defaultValues: { categories: [], details: '', branch: '' },
-  })
-
-  const values = watch()
-  const selectedBranch = BRANCHES.find((b) => b.id === values.branch)
-
-  async function next() {
-    const valid = await trigger(fieldsPerStep[step])
-    if (valid) setStep((s) => Math.min(s + 1, STEPS.length - 1))
-  }
-
-  async function onSubmit(formValues: FormValues) {
-    setServerError(null)
-    if (!user) {
-      router.push('/login')
-      return
-    }
-    try {
-      await devisApi.create({
-        brancheContact: BRANCH_BACKEND[formValues.branch] ?? formValues.branch,
-        produitDesire: formValues.categories.join(', '),
-        description: formValues.details,
-      })
-      setDone(true)
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Erreur lors de l\'envoi.'
-      setServerError(msg)
-    }
-  }
-
-  // Not authenticated — show CTA
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center rounded-2xl border border-border bg-secondary p-12 text-center">
@@ -241,11 +155,7 @@ export function QuoteForm() {
           </Link>
         </div>
       </div>
-<<<<<<< HEAD
     );
-=======
-    )
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
   }
 
   return (
@@ -313,7 +223,6 @@ export function QuoteForm() {
                   </div>
                 )}
 
-<<<<<<< HEAD
                 {/* products summary */}
                 {items.length > 0 && (
                   <div className="mb-8 rounded-2xl border border-border bg-secondary p-5">
@@ -399,76 +308,6 @@ export function QuoteForm() {
 
                 {/* 1: recipient */}
                 {step === 0 && (
-=======
-                {/* Step 1 — Products */}
-                {step === 0 && (
-                  <div className="space-y-8">
-                    <div>
-                      <h2 className="text-xl font-semibold">Produit désiré</h2>
-                      <p className="mt-1.5 text-sm text-muted-foreground">
-                        Sélectionnez une ou plusieurs gammes.
-                      </p>
-                      <Controller
-                        control={control}
-                        name="categories"
-                        render={({ field }) => (
-                          <div className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
-                            {PRODUCT_CATEGORIES.map((c) => {
-                              const checked = field.value.includes(c.id)
-                              return (
-                                <button
-                                  type="button"
-                                  key={c.id}
-                                  onClick={() =>
-                                    field.onChange(
-                                      checked
-                                        ? field.value.filter((v) => v !== c.id)
-                                        : [...field.value, c.id],
-                                    )
-                                  }
-                                  className={cn(
-                                    'group flex items-center justify-between gap-2 rounded-xl border px-4 py-3.5 text-left text-sm font-medium transition-all duration-200',
-                                    checked
-                                      ? 'border-foreground bg-foreground text-background'
-                                      : 'border-border bg-background text-foreground hover:border-foreground/30',
-                                  )}
-                                >
-                                  {c.label}
-                                  <span
-                                    className={cn(
-                                      'flex size-5 items-center justify-center rounded-full border transition-colors',
-                                      checked
-                                        ? 'border-background bg-background text-foreground'
-                                        : 'border-border',
-                                    )}
-                                  >
-                                    {checked && <Check className="size-3" />}
-                                  </span>
-                                </button>
-                              )
-                            })}
-                          </div>
-                        )}
-                      />
-                      {errors.categories && (
-                        <p className="mt-2 text-xs text-destructive">
-                          {errors.categories.message}
-                        </p>
-                      )}
-                    </div>
-
-                    <FloatingTextarea
-                      label="Spécifiez votre demande"
-                      rows={5}
-                      error={errors.details?.message}
-                      {...register('details')}
-                    />
-                  </div>
-                )}
-
-                {/* Step 2 — Recipient */}
-                {step === 1 && (
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                   <div>
                     <h2 className="text-xl font-semibold">
                       Choisissez votre destinataire
@@ -482,11 +321,7 @@ export function QuoteForm() {
                       render={({ field }) => (
                         <div className="mt-5 space-y-3">
                           {BRANCHES.map((b) => {
-<<<<<<< HEAD
                             const active = field.value === b.id;
-=======
-                            const active = field.value === b.id
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                             return (
                               <button
                                 type="button"
@@ -496,11 +331,7 @@ export function QuoteForm() {
                                   'flex w-full items-center justify-between gap-4 rounded-xl border px-5 py-5 text-left transition-all duration-200',
                                   active
                                     ? 'border-foreground bg-muted/50'
-<<<<<<< HEAD
                                     : 'border-border bg-background hover:border-foreground/30'
-=======
-                                    : 'border-border bg-background hover:border-foreground/30',
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                                 )}
                               >
                                 <div className="flex items-center gap-4">
@@ -509,11 +340,7 @@ export function QuoteForm() {
                                       'flex size-10 items-center justify-center rounded-lg transition-colors',
                                       active
                                         ? 'bg-accent text-accent-foreground'
-<<<<<<< HEAD
                                         : 'bg-secondary text-foreground'
-=======
-                                        : 'bg-secondary text-foreground',
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                                     )}
                                   >
                                     <Package className="size-5" />
@@ -530,21 +357,13 @@ export function QuoteForm() {
                                     'flex size-5 items-center justify-center rounded-full border transition-colors',
                                     active
                                       ? 'border-foreground bg-foreground text-background'
-<<<<<<< HEAD
                                       : 'border-border'
-=======
-                                      : 'border-border',
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                                   )}
                                 >
                                   {active && <Check className="size-3" />}
                                 </span>
                               </button>
-<<<<<<< HEAD
                             );
-=======
-                            )
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                           })}
                         </div>
                       )}
@@ -557,7 +376,6 @@ export function QuoteForm() {
                   </div>
                 )}
 
-<<<<<<< HEAD
                 {/* 2: confirmation */}
                 {step === 1 && (
                   <div className="space-y-6">
@@ -603,34 +421,10 @@ export function QuoteForm() {
                         </p>
                       </div>
 
-=======
-                {/* Step 3 — Confirm */}
-                {step === 2 && (
-                  <div className="space-y-6">
-                    <h2 className="text-xl font-semibold">Confirmer votre demande</h2>
-                    <div className="rounded-2xl border border-border bg-secondary p-6 space-y-4">
-                      <div>
-                        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Gammes sélectionnées</p>
-                        <p className="mt-1 font-medium">
-                          {values.categories
-                            .map((id) => PRODUCT_CATEGORIES.find((c) => c.id === id)?.label)
-                            .filter(Boolean)
-                            .join(', ')}
-                        </p>
-                      </div>
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                       <div>
                         <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Destinataire</p>
                         <p className="mt-1 font-medium">{selectedBranch?.name}</p>
                       </div>
-<<<<<<< HEAD
-
-=======
-                      <div>
-                        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Détails</p>
-                        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{values.details}</p>
-                      </div>
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                       <div>
                         <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Compte</p>
                         <p className="mt-1 text-sm">{user.email}</p>
@@ -639,11 +433,7 @@ export function QuoteForm() {
                   </div>
                 )}
 
-<<<<<<< HEAD
                 {/* boutts nav */}
-=======
-                {/* Nav buttons */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
                 <div className="mt-10 flex items-center justify-between">
                   <button
                     type="button"
@@ -687,16 +477,11 @@ export function QuoteForm() {
         </div>
       </div>
 
-<<<<<<< HEAD
       {/* sidebar */}
-=======
-      {/* Sidebar summary */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <div className="hidden lg:block">
         <div className="sticky top-28 rounded-2xl border border-border bg-secondary p-6">
           <p className="label-eyebrow">Résumé</p>
           <div className="mt-5 space-y-4">
-<<<<<<< HEAD
             {/* produits */}
             {items.length > 0 && (
               <div>
@@ -729,25 +514,6 @@ export function QuoteForm() {
               </div>
             )}
 
-=======
-            <div>
-              <p className="text-xs font-medium text-muted-foreground">Gammes</p>
-              {values.categories.length === 0 ? (
-                <p className="mt-1 text-sm text-muted-foreground/60">—</p>
-              ) : (
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {values.categories.map((id) => (
-                    <span
-                      key={id}
-                      className="rounded-lg bg-background px-2.5 py-1 text-xs font-medium ring-1 ring-border"
-                    >
-                      {PRODUCT_CATEGORIES.find((c) => c.id === id)?.label}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
             <div>
               <p className="text-xs font-medium text-muted-foreground">Destinataire</p>
               <p className="mt-1 text-sm font-medium">
@@ -758,10 +524,5 @@ export function QuoteForm() {
         </div>
       </div>
     </div>
-<<<<<<< HEAD
   );
 }
-=======
-  )
-}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b

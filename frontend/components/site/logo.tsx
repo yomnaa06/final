@@ -1,17 +1,9 @@
-<<<<<<< HEAD
-=======
-// components/site/logo.tsx
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
 import Image from 'next/image';
 
 export function Logo() {
   return (
     <div className="flex items-center gap-3 group">
-<<<<<<< HEAD
       {/* logo */}
-=======
-      {/* Logo Image */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <div className="relative flex-shrink-0">
         <Image
           src="/images/logo.png"
@@ -23,11 +15,7 @@ export function Logo() {
         />
       </div>
       
-<<<<<<< HEAD
       {/* text */}
-=======
-      {/* Text */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <div className="leading-none">
         <span className="block font-serif text-xl md:text-2xl lg:text-3xl font-bold text-foreground tracking-tight group-hover:text-blue-600 transition-colors duration-300">
           SEGHAIER
