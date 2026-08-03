@@ -1,138 +1,168 @@
-'use client'
+"use client";
 
-import { Suspense, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { Loader2, CheckCircle2, AlertCircle, XCircle } from 'lucide-react'
-import { AuthShell } from '@/components/auth/auth-shell'
-import { FloatingPassword } from '@/components/ui/floating-field'
-import { authApi } from '@/lib/api'
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Eye, EyeOff, Loader2, ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
+import { authApi } from '@/lib/api';
+import { Navbar } from '@/components/site/navbar';
+import { Footer } from '@/components/site/footer';
 
 const schema = z
   .object({
-    password: z.string().min(8, 'Au moins 8 caractères'),
-    confirm:  z.string().min(1, 'Confirmez le mot de passe'),
+    password: z.string().min(6, 'Minimum 6 caractères'),
+    confirmPassword: z.string().min(6, 'Minimum 6 caractères'),
   })
-  .refine((d) => d.password === d.confirm, {
-    message: 'Les mots de passe ne correspondent pas.',
-    path: ['confirm'],
-  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Les mots de passe ne correspondent pas',
+    path: ['confirmPassword'],
+  });
 
-type FormValues = z.infer<typeof schema>
+type FormValues = z.infer<typeof schema>;
 
-//search params
-function ResetPasswordForm() {
-  const searchParams = useSearchParams()
-  const token = searchParams.get('token')
-  const router = useRouter()
-
-  const [done, setDone]           = useState(false)
-  const [serverError, setError]   = useState<string | null>(null)
+export default function ResetPasswordPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormValues>({ resolver: zodResolver(schema) })
+  } = useForm<FormValues>({
+    resolver: zodResolver(schema),
+  });
 
-  // no token f lien, mark l'erreur
-  if (!token) {
-    return (
-      <div className="flex items-start gap-3 rounded-2xl border border-destructive/30 bg-destructive/5 px-5 py-4">
-        <XCircle className="mt-0.5 size-5 shrink-0 text-destructive" />
-        <div>
-          <p className="font-medium text-destructive">Lien invalide</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Ce lien de réinitialisation est invalide ou a expiré. Veuillez faire une
-            nouvelle demande depuis la page de connexion.
-          </p>
-        </div>
-      </div>
-    )
-  }
-
-  if (done) {
-    return (
-      <div className="flex items-center gap-3 rounded-2xl border border-border bg-secondary p-5">
-        <CheckCircle2 className="size-5 shrink-0 text-accent" />
-        <div>
-          <p className="font-medium">Mot de passe réinitialisé</p>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.
-          </p>
-        </div>
-      </div>
-    )
-  }
-
-  async function onSubmit(values: FormValues) {
-    setError(null)
-    try {
-      await authApi.resetPassword(token!, values.password)
-      setDone(true)
-      setTimeout(() => router.push('/login'), 2500)
-    } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : 'Erreur lors de la réinitialisation.'
-      if (msg.includes('expiré') || msg.includes('invalide'))
-        setError('Ce lien a expiré. Veuillez refaire une demande.')
-      else
-        setError(msg)
+  // No token in URL — show error immediately
+  useEffect(() => {
+    if (!token) {
+      setError('Lien de réinitialisation invalide ou expiré.');
     }
-  }
+  }, [token]);
+
+  const onSubmit = async (data: FormValues) => {
+    if (!token) {
+      setError('Lien de réinitialisation invalide ou expiré.');
+      return;
+    }
+
+    setError(null);
+    try {
+      await authApi.resetPassword(token, data.password);
+      setSuccess(true);
+      setTimeout(() => router.push('/login'), 3000);
+    } catch (err: any) {
+      setError(err.message || 'Une erreur est survenue.');
+    }
+  };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
-      {serverError && (
-        <div className="flex items-start gap-2.5 rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3">
-          <AlertCircle className="mt-0.5 size-4 shrink-0 text-destructive" />
-          <p className="text-sm text-destructive">{serverError}</p>
-        </div>
-      )}
+    <>
+      <Navbar />
+      <main className="min-h-screen bg-gray-50 pt-[70px]">
+        <div className="container mx-auto max-w-md px-5 py-16">
+          <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition-colors mb-6"
+            >
+              <ArrowLeft className="size-4" />
+              Retour
+            </Link>
 
-      <FloatingPassword
-        label="Nouveau mot de passe"
-        autoComplete="new-password"
-        error={errors.password?.message}
-        {...register('password')}
-      />
-      <FloatingPassword
-        label="Confirmer le mot de passe"
-        autoComplete="new-password"
-        error={errors.confirm?.message}
-        {...register('confirm')}
-      />
+            {success ? (
+              <div className="text-center py-8">
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-green-100 text-green-600">
+                  <CheckCircle2 className="size-8" />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900">Mot de passe réinitialisé</h2>
+                <p className="mt-2 text-gray-500">Votre mot de passe a été modifié avec succès.</p>
+                <p className="mt-4 text-sm text-gray-400">Redirection vers la page de connexion...</p>
+              </div>
+            ) : (
+              <>
+                <h1 className="text-2xl font-bold text-gray-900">Nouveau mot de passe</h1>
+                <p className="mt-2 text-sm text-gray-500">Choisissez un mot de passe sécurisé.</p>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="inline-flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-primary text-sm font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90 disabled:opacity-70"
-      >
-        {isSubmitting
-          ? <><Loader2 className="size-4 animate-spin" />Réinitialisation…</>
-          : 'Réinitialiser le mot de passe'}
-      </button>
-    </form>
-  )
-}
+                {error && (
+                  <div className="mt-4 flex items-start gap-2.5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    <AlertCircle className="mt-0.5 size-4 shrink-0" />
+                    {error}
+                  </div>
+                )}
 
-export default function ResetPasswordPage() {
-  return (
-    <AuthShell
-      eyebrow="Portail professionnel"
-      title="Nouveau mot de passe"
-      subtitle="Choisissez un mot de passe sécurisé d'au moins 8 caractères."
-    >
-      <Suspense
-        fallback={
-          <div className="flex h-24 items-center justify-center">
-            <Loader2 className="size-5 animate-spin text-muted-foreground" />
+                {!error && token && (
+                  <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Nouveau mot de passe *
+                      </label>
+                      <div className="relative mt-1">
+                        <input
+                          type={showPassword ? 'text' : 'password'}
+                          {...register('password')}
+                          className="w-full rounded-lg border border-gray-300 px-4 py-2.5 pr-10 text-sm focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue/20"
+                          placeholder="••••••••"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                        >
+                          {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                        </button>
+                      </div>
+                      {errors.password && (
+                        <p className="mt-1 text-xs text-red-500">{errors.password.message}</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Confirmer le mot de passe *
+                      </label>
+                      <div className="relative mt-1">
+                        <input
+                          type={showConfirmPassword ? 'text' : 'password'}
+                          {...register('confirmPassword')}
+                          className="w-full rounded-lg border border-gray-300 px-4 py-2.5 pr-10 text-sm focus:border-brand-blue focus:outline-none focus:ring-2 focus:ring-brand-blue/20"
+                          placeholder="••••••••"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                        >
+                          {showConfirmPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                        </button>
+                      </div>
+                      {errors.confirmPassword && (
+                        <p className="mt-1 text-xs text-red-500">{errors.confirmPassword.message}</p>
+                      )}
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full rounded-lg bg-brand-blue py-2.5 text-sm font-semibold text-white transition-all hover:bg-brand-blue/90 disabled:opacity-50"
+                    >
+                      {isSubmitting ? <Loader2 className="mx-auto size-5 animate-spin" /> : 'Réinitialiser'}
+                    </button>
+                  </form>
+                )}
+              </>
+            )}
           </div>
-        }
-      >
-        <ResetPasswordForm />
-      </Suspense>
-    </AuthShell>
-  )
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
 }
