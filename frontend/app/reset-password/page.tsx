@@ -40,7 +40,6 @@ export default function ResetPasswordPage() {
     resolver: zodResolver(schema),
   });
 
-  // No token in URL — show error immediately
   useEffect(() => {
     if (!token) {
       setError('Lien de réinitialisation invalide ou expiré.');
