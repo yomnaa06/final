@@ -22,8 +22,8 @@ app.use(cors());
 // Parse JSON request bodies
 app.use(express.json());
 
-// ===== ROOT ROUTE (FIXES 404) =====
-app.get('/', (req, res) => {
+// ===== ROOT ROUTE (FIXED) =====
+app.get('/', (_req, res) => {
   res.json({ 
     status: 'online', 
     message: 'SEGHAIER API is running',
