@@ -13,7 +13,6 @@ import reclamationRoutes from './routes/reclamationRoutes';
 import adminRoutes from './routes/adminRoutes';
 import contactRoutes from './routes/contactRoutes';
 
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -22,6 +21,22 @@ app.use(cors());
 
 // Parse JSON request bodies
 app.use(express.json());
+
+// ===== ROOT ROUTE (FIXES 404) =====
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'online', 
+    message: 'SEGHAIER API is running',
+    endpoints: [
+      '/api/auth/login',
+      '/api/auth/register',
+      '/api/devis',
+      '/api/reclamations',
+      '/api/admin/dashboard',
+      '/api/contact'
+    ]
+  });
+});
 
 // Serve uploads folder statically
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
@@ -36,6 +51,7 @@ app.use('/api/devis', devisRoutes);
 app.use('/api/reclamations', reclamationRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/contact', contactRoutes);
+
 // Healthcheck endpoint
 app.get('/api/health', (_req, res) => {
   res.status(200).json({
