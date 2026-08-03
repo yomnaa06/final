@@ -102,11 +102,7 @@ export function RegisterForm() {
 
   return (
     <div>
-<<<<<<< HEAD
       {/* Type de client toggle */}
-=======
-      {/* Type toggle */}
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
       <div className="grid grid-cols-2 gap-1.5 rounded-2xl border border-border bg-secondary p-1.5">
         {(['client', 'societe'] as const).map((t) => (
           <button key={t} type="button" onClick={() => switchType(t)}

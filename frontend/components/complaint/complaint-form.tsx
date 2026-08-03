@@ -85,11 +85,7 @@ export function ComplaintForm() {
     }
   }
 
-<<<<<<< HEAD
   // pas authentifie
-=======
-  // Not authenticated
->>>>>>> 0b84bae6a5da1fec2ea21b3fa8e6addf05d4415b
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center rounded-2xl border border-border bg-secondary p-12 text-center">
